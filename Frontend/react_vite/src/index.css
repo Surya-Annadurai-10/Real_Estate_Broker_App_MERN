@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.logo {
+  
+  font-weight: bold;
+  background: linear-gradient( to right, #DDA14B, #EEBA75);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
