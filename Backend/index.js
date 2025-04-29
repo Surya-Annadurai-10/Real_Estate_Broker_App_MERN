@@ -1,9 +1,15 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const router = require("./routes/route");
+const errorMiddleware = require("./middlewares/error");
 
 dotenv.config();
 const app = express();
+app.use(express.json())
+
+app.use("/api/v1",router);
+app.use(errorMiddleware);
 
 mongoose
   .connect(process.env.MONGODB)
