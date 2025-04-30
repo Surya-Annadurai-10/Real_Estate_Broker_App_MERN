@@ -4,7 +4,6 @@ const errorUtils = require("../utlis/errorUtils");
 
 const SignUpController = async(req , res , next) =>{
     console.log(req.body , "body");
-
     const user = {
         username : req.body.username,
         email : req.body.email,
@@ -17,16 +16,14 @@ const SignUpController = async(req , res , next) =>{
         ...user,
         password : hashedPassword
     })
-
     res.status(200).json({
-        message : "user added in db successfully",
+        success : true,
+        message : "User Created successfully !!",
         data : user
     })
    } catch (error) {
      next(error);
    }
-
-   
 }
 
 
