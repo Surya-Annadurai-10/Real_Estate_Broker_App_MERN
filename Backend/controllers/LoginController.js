@@ -36,7 +36,9 @@ const LoginController = async (req , res , next) =>{
             })
 
         }else{
-         next(error)
+         next(errorUtils(401 , "Wrong Credentials"))
+        //  console.log("401 error block");
+         
         }
        } catch (error) {
          next(error);

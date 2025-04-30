@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-const SignUp = () => {
-
+import { loginInFailure, loginInStart, loginInSuccess } from "../slices/slice";
+import OAuth from "../Components/OAuth";
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({});
   const navigate = useNavigate();
+  const { loading, error , userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() =>{
+   if(error){
+
+   }
+  },[])
 
   const handleLogin = async () => {
     let userData = {
@@ -15,8 +23,7 @@ const SignUp = () => {
     };
 
     try {
-      setIsLoading(true);
-      setError({});
+      dispatch(loginInStart());
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -25,30 +32,25 @@ const SignUp = () => {
         body: JSON.stringify(userData),
       });
 
-      const data = await res.json();
-      console.log(data , "data");
-      
+      const dataJson = await res.json();
+      console.log(dataJson.data, "data");
+      console.log(dataJson, "data");
 
-      if (!data.success) {
-        setIsLoading(false);
-        setError(data);
-        setEmail("")
-        setPassword("")
+      if (!dataJson.success) {
+        dispatch(loginInFailure(dataJson));
+        setEmail("");
+        setPassword("");
         console.log("if block");
-        
         return;
       }
-      setIsLoading(false);
-      setError(data);
-      setTimeout(() =>{
-        navigate("/")
-      }, 1000)
-      console.log(data, "data");
+      dispatch(loginInSuccess(dataJson));
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      console.log(dataJson.data, "data");
 
-      console.log(userData, "userdata");
-
-      setEmail("")
-      setPassword("")
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error, "---------error");
     }
@@ -59,9 +61,19 @@ const SignUp = () => {
       <div className="flex  py-10 m-auto  items-center justify-center max-w-[380px] flex-col gap-4">
         <h1 className="text-3xl pb-4">Login</h1>
        {
-        error ?  <h1 className={` font-semibold ${error.success ? "text-green-600" : "text-red-500"}`}>{error.message}</h1> : null
+        error ?  <>
+        {
+           <h1
+           className={` font-semibold ${
+             error.success ? "text-green-600" : "text-red-500"
+           }`}
+         >
+           {error.message}
+         </h1>
+        }
+        </>: null
        }
-      
+
         <div className="w-full ">
           <input
             onChange={(e) => setEmail(e.target.value)}
@@ -84,19 +96,17 @@ const SignUp = () => {
           onClick={handleLogin}
           className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#3C4A5D]"
         >
-          {isLoading ? "Loading..." : "LOGIN"}
+          {loading ? "Loading..." : "LOGIN"}
         </button>
-        <button className="w-full  cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#BC2727]">
-          CONTINUE WITH GOOGLE
-        </button>
+        <OAuth />
         <p>
-         Don't have an account?
+          Don't have an account?
           <Link
             className="text-blue-700 hover:underline hover:underline-offset-2"
             to={"/signup"}
           >
             {" "}
-           Sign up
+            Sign up
           </Link>
         </p>
       </div>
@@ -104,4 +114,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

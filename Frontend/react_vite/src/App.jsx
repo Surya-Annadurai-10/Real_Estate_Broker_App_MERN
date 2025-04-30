@@ -9,6 +9,8 @@ import About from './Containers/About'
 import Login from './Containers/Login'
 import Profile from './Containers/Profile'
 import SignUp from './Containers/SignUp'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 const router = createBrowserRouter([
   {
@@ -44,7 +46,9 @@ function App() {
 
   return (
    <>
-   <RouterProvider router={router} />
+  <Provider store={store}>
+  <RouterProvider router={router} />
+  </Provider>
    </>
   )
 }

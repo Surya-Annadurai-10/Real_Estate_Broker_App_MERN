@@ -1,9 +1,13 @@
 import React from "react";
 import logo from "../assets/royal.png";
 import { GoSearch } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const stateUser  = useSelector(state => state.user);
+  console.log(stateUser , "Stateuser");
+  
   return (
     <header className="w-full h-[10vh] bg-[#E2E8F0] px-10 flex items-center justify-between">
       <div>
@@ -26,11 +30,19 @@ const Header = () => {
         <Link>
         <h1 className=" ">About</h1>
         </Link>
-        <Link>
-        <div className="w-[50px] h-[50px] grid place-items-center rounded-full bg-[purple] text-white">
-            <h1>S</h1>
-        </div>
+        {console.log(stateUser)}
+
+       {  
+        stateUser.userData ? 
+       <Link to={"/profile"}> <img className="w-[40px] h-[40px] rounded-full" src={stateUser.userData.avatar} alt="" /> </Link>
+        :
+        <>
+         <Link to={"/login"} className="w-[100px] h-[40px] grid place-items-center rounded-md bg-slate-700 text-white">
+           Login
         </Link>
+        </>
+       }
+   
        
       </div>
     </header>

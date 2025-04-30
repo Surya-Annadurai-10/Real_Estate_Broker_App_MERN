@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
         type : String,
         required : true,
         unique : true,
+    },
+    avatar : {
+        type : String,
+        default : "https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
     }
 },
  {

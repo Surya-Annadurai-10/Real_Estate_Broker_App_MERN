@@ -1,5 +1,8 @@
+import { signInWithPopup, signInWithRedirect } from "firebase/auth";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth, googleAuthProvider } from "../fireBase";
+import OAuth from "../Components/OAuth";
 const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,30 +30,29 @@ const SignUp = () => {
       });
 
       const data = await res.json();
-      console.log(data , "data");
-      
+      console.log(data, "data");
 
       if (data.success == false) {
         setIsLoading(false);
         setError(data);
-        setUserName("")
-        setEmail("")
-        setPassword("")
+        setUserName("");
+        setEmail("");
+        setPassword("");
         console.log("if block");
-        
+
         return;
       }
       setIsLoading(false);
       setError(data);
-      setTimeout(() =>{
-        navigate("/login")
-      }, 1000)
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
       console.log(data, "data");
 
       console.log(userData, "userdata");
-      setUserName("")
-      setEmail("")
-      setPassword("")
+      setUserName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error, "---------error");
     }
@@ -60,7 +62,9 @@ const SignUp = () => {
     <section className="w-full h-[90vh] bg-[#F1F5F1]">
       <div className="flex py-10 m-auto  items-center justify-center max-w-[380px] flex-col gap-4">
         <h1 className="text-3xl pb-4">Sign Up</h1>
-        <h1 className="text-red-500">{error.message}</h1>
+        <h1 className={`font-semibold ${error.success ? "text-green-500" : "text-red-500"}`}>
+          {error.message}
+        </h1>
         <div className="w-full ">
           <input
             onChange={(e) => setUserName(e.target.value)}
@@ -94,9 +98,7 @@ const SignUp = () => {
         >
           {isLoading ? "Loading..." : "SIGN UP"}
         </button>
-        <button className="w-full  cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#BC2727]">
-          CONTINUE WITH GOOGLE
-        </button>
+        <OAuth />
         <p>
           Already have an account?
           <Link
