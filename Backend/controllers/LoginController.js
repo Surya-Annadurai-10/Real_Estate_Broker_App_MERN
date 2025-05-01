@@ -17,7 +17,7 @@ const LoginController = async (req , res , next) =>{
         const payload = {
             username  : userData.username,
             email  : userData.email,
-         
+            id : userData._id
         }
 
         const options = {
@@ -31,7 +31,7 @@ const LoginController = async (req , res , next) =>{
          res.status(200).json({
              success : true,
              message : "Login successful !!",
-            //  token :token,
+             token :token,
              data : rest
             })
 
