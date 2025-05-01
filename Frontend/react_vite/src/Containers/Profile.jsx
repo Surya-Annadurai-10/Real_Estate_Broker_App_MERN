@@ -162,6 +162,28 @@ const Profile = () => {
       //   )
      
   }
+
+
+  const handleSignOut = async() =>{
+      try {
+        const res = await fetch("/api/auth/signout",{
+          method : "GET",
+          headers : {
+            "Content-Type" : "application/json"
+          }
+        })
+
+        const resData  = await res.json();
+        console.log(resData , "signOut");
+        
+        dispatch(deleteInSuccess(resData))
+        navigate("/login")
+      } catch (error) {
+        console.log(error , "Error while logging out---------");
+        
+      }
+  }
+
   return (
     <section className="w-full h-[90vh] bg-[#F1F5F1]">
       <div className="flex py-10 m-auto  items-center justify-center max-w-[380px] flex-col gap-4">
@@ -238,7 +260,7 @@ const Profile = () => {
         </button>
         <div className="w-full flex items-center justify-between">
           <button onClick={handleDeleteUser} className="border-none hover:font-semibold  cursor-pointer text-red-600">Delete account</button>
-          <button className="border-none hover:font-semibold cursor-pointer text-red-600">Sign out</button>
+          <button onClick={handleSignOut} className="border-none hover:font-semibold cursor-pointer text-red-600">Sign out</button>
         </div>
       </div>
     </section>
