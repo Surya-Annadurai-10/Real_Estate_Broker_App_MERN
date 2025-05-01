@@ -11,7 +11,8 @@ const GoogleController =async (req , res , next) =>{
     if(user){
         const payload = {
             username : user.username,
-            email : user.email
+            email : user.email,
+            id : user._id
         }
         const options = {
             expiresIn : "1d"

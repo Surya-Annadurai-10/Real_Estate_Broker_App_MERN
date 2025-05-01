@@ -20,6 +20,7 @@ const userRouterController = async(req , res , next) =>{
    const {password : pass , ...rest} = user._doc;
 
    res.status(200).json({
+    success:true,
     message : "Updated successfully",
     data : rest
    })

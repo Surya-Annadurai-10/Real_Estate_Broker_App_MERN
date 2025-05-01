@@ -21,9 +21,25 @@ const userSlice = createSlice({
             state.userData = action.payload.data;
             state.loading = false;
             state.error = action.payload;
-        }
+        },
+        updateInStart  :(state , action) =>{
+            state.loading = true;
+         },
+         updateInFailure : (state , action) =>{
+             state.error = action.payload,
+             state.loading = false
+         },
+         updateInSuccess : (state , action) =>{
+             state.userData = action.payload.data;
+             state.loading = false;
+             state.error = action.payload;
+         }
+         ,
+         cleaupError : (state , action) =>{
+            state.error = null
+         }
     }
 })
 
-export const {loginInStart , loginInFailure , loginInSuccess} = userSlice.actions;
+export const {loginInStart ,cleaupError, updateInFailure, updateInStart,updateInSuccess, loginInFailure , loginInSuccess} = userSlice.actions;
 export const userReducer = userSlice.reducer;

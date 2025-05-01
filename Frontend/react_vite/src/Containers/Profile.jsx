@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../fireBase";
+import axios from "axios";
+import { cleaupError, updateInFailure, updateInStart, updateInSuccess } from "../slices/slice";
+
+
 
 const Profile = () => {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
+  const  stateUser = useSelector(
+    (state) => state.user
+  );
+  const [profilePicture, setProfilePicture] = useState(stateUser?.userData?.avatar || "");
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState({});
   const [error, setError] = useState("");
@@ -17,24 +21,22 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [errMessage, setErrMessage] = useState("");
+ const [formData , setFormData] = useState({});
+  
+  const dispatch = useDispatch();
 
-  const { loading, errorMessage, userData } = useSelector(
-    (state) => state.user
-  );
-
-  // console.log(userData , "userData");
+  console.log(stateUser.userData , "stateUser.userData");
 
   useEffect(() => {
-    if (!userData) {
+    if (!stateUser.userData) {
       navigate("/login");
     } else {
-      console.log(userData, "userData-------------");
-      setUserName(userData.username);
-      setEmail(userData.email);
+      console.log(stateUser.userData, "stateUser.userData-------------");
+      dispatch(cleaupError())
     }
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>{
     if (file) {
       handleFileUpload(file);
     }
@@ -83,6 +85,58 @@ const Profile = () => {
     
   };
 
+  console.log(formData , "formData");
+  
+
+  const handleChange = (e) =>{
+    setFormData({
+      ...formData,
+      [e.target.id] : e.target.value
+    })
+  }
+
+
+
+  const handleSubmit = async() =>{
+        const formDetails = {
+          ...formData,
+          avatar : profilePicture
+        }
+        console.log(formDetails , "formDetails");
+        
+    try {
+      dispatch(updateInStart())
+      const res = await fetch(`/api/user/update/${stateUser.userData._id}` , {
+        method : "POST",
+        headers :{
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(formDetails)
+      })
+
+      const resData = await res.json();
+      console.log(resData,"resData");
+      if(!resData.success){
+        dispatch(updateInFailure(resData));
+        return
+      }
+      dispatch(updateInSuccess(resData));
+      
+    } catch (error) {
+       console.log(error , "error------------------------");
+       
+    }
+    
+      // const headers = {
+      //   "Content-Type" : "application/json"
+      // }
+      //    axios.post(`/api/user/update/${stateUser.userData._id}`,{
+      //     formData , headers
+      //   }).then((res) => console.log(res , "res")
+      //   ).catch(err => console.log(err , "error")
+      //   )
+     
+  }
   return (
     <section className="w-full h-[90vh] bg-[#F1F5F1]">
       <div className="flex py-10 m-auto  items-center justify-center max-w-[380px] flex-col gap-4">
@@ -90,13 +144,15 @@ const Profile = () => {
         <input
           type="file"
           ref={fileInputRef}
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) => {
+            handleChange
+            setFile(e.target.files[0])}}
           hidden
           accept="image/*"
         />
         <div className="w-[60px] object-cover  h-[60px] rounded-full ">
           <img className=" w-[60px] object-cover  h-[60px] rounded-full"
-            src={profilePicture || userData.avatar}
+            src={profilePicture || stateUser?.userData?.avatar}
             onClick={() => fileInputRef.current.click()}
             alt=""
           />
@@ -117,33 +173,40 @@ const Profile = () => {
         }
         <div className="w-full ">
           <input
-            onChange={(e) => setUserName(e.target.value)}
-            value={userName}
+           onChange={(e) => handleChange(e)}
             className="w-full  border border-[#d4d4d4]  rounded-xl outline-none p-3 bg-white h-[45px]"
             type="text"
+            defaultValue={stateUser.userData?.username}
+            id="username"
             placeholder="Username"
           />
         </div>
         <div className="w-full ">
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={(e) => handleChange(e)}
             className="w-full border border-[#d4d4d4]   p-3 rounded-xl outline-none bg-white h-[45px]"
             type="email"
+            id="email"
+            defaultValue={stateUser.userData?.email}
             placeholder="Email"
           />
         </div>
         <div className="w-full ">
           <input
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={(e) => handleChange(e)}
             className="w-full  border border-[#d4d4d4] p-3 rounded-xl outline-none bg-white h-[45px]"
             type="password"
+            id="password"
             placeholder="Password"
           />
         </div>
-        <button className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#3C4A5D]">
-          {isLoading ? "Loading..." : "Update"}
+        {
+          stateUser.error ?<>
+          <h1 className={` font-semibold ${stateUser.error.success ? "text-green-600" : "text-red-600"}`}>{stateUser.error.message}</h1>
+          </> : null
+        }
+        <button onClick={handleSubmit} className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#3C4A5D]">
+          {stateUser.loading ? "Loading..." : "Update"}
         </button>
         <button className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[green]">
           {isLoading ? "Loading..." : "Create Listing"}

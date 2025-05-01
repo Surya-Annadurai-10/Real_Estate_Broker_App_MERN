@@ -1,8 +1,10 @@
 import { signInWithPopup, signInWithRedirect } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleAuthProvider } from "../fireBase";
 import OAuth from "../Components/OAuth";
+import { useDispatch } from "react-redux";
+import { cleaupError } from "../slices/slice";
 const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     let userData = {
@@ -17,6 +20,7 @@ const SignUp = () => {
       email: email,
       password: password,
     };
+
 
     try {
       setIsLoading(true);

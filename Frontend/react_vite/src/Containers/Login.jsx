@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() =>{
    if(error){
-
+     dispatch(cleaupError())
    }
   },[])
 
