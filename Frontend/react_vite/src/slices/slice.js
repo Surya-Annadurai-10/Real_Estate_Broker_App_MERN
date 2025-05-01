@@ -33,13 +33,26 @@ const userSlice = createSlice({
              state.userData = action.payload.data;
              state.loading = false;
              state.error = action.payload;
+         },
+        deleteInStart  :(state , action) =>{
+            state.loading = true;
+         },
+         deleteInFailure : (state , action) =>{
+             state.error = action.payload,
+             state.loading = false
+         },
+         deleteInSuccess : (state , action) =>{
+             state.userData = action.payload.data;
+             state.loading = false;
+             state.error = action.payload;
          }
          ,
          cleaupError : (state , action) =>{
             state.error = null
+            state.loading = false;
          }
     }
 })
 
-export const {loginInStart ,cleaupError, updateInFailure, updateInStart,updateInSuccess, loginInFailure , loginInSuccess} = userSlice.actions;
+export const {loginInStart,deleteInStart,deleteInFailure,deleteInSuccess ,cleaupError, updateInFailure, updateInStart,updateInSuccess, loginInFailure , loginInSuccess} = userSlice.actions;
 export const userReducer = userSlice.reducer;

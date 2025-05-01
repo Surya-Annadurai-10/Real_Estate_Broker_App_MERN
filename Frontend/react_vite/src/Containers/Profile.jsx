@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../fireBase";
 import axios from "axios";
-import { cleaupError, updateInFailure, updateInStart, updateInSuccess } from "../slices/slice";
+import { cleaupError, deleteInFailure, deleteInStart, deleteInSuccess, updateInFailure, updateInStart, updateInSuccess } from "../slices/slice";
 
 
 
@@ -86,6 +86,31 @@ const Profile = () => {
   };
 
   console.log(formData , "formData");
+
+  const handleDeleteUser = async() =>{
+    try {
+      dispatch(deleteInStart())
+      const res = await fetch(`/api/user/delete/${stateUser.userData._id}`,{
+        method : "DELETE",
+        headers : {
+          "Content-Type" : "application/json"
+        }
+      });
+     
+      const resData = await res.json();
+      console.log(resData, "resData");
+      
+      if(!resData.success){
+        dispatch(deleteInFailure(resData))
+        return
+      }
+      dispatch(deleteInSuccess(resData));
+      navigate("/login");
+    } catch (error) {
+      console.log("Error while deleting the user" , error);
+      
+    }
+  }
   
 
   const handleChange = (e) =>{
@@ -211,6 +236,10 @@ const Profile = () => {
         <button className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[green]">
           {isLoading ? "Loading..." : "Create Listing"}
         </button>
+        <div className="w-full flex items-center justify-between">
+          <button onClick={handleDeleteUser} className="border-none hover:font-semibold  cursor-pointer text-red-600">Delete account</button>
+          <button className="border-none hover:font-semibold cursor-pointer text-red-600">Sign out</button>
+        </div>
       </div>
     </section>
   );

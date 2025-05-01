@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginInFailure, loginInStart, loginInSuccess } from "../slices/slice";
+import { cleaupError, loginInFailure, loginInStart, loginInSuccess } from "../slices/slice";
 import OAuth from "../Components/OAuth";
 const Login = () => {
   const [email, setEmail] = useState("");
