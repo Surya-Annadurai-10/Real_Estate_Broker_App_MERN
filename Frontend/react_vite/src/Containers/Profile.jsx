@@ -255,9 +255,9 @@ const Profile = () => {
         <button onClick={handleSubmit} className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[#3C4A5D]">
           {stateUser.loading ? "Loading..." : "Update"}
         </button>
-        <button className="w-full cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[green]">
-          {isLoading ? "Loading..." : "Create Listing"}
-        </button>
+        <Link to={"/createlisting"} className="w-full text-center  cursor-pointer active:scale-[0.95] transition-all rounded-xl h-[45px] p-3 font-400 text-white bg-[green]">
+        Create Listing
+        </Link>
         <div className="w-full flex items-center justify-between">
           <button onClick={handleDeleteUser} className="border-none hover:font-semibold  cursor-pointer text-red-600">Delete account</button>
           <button onClick={handleSignOut} className="border-none hover:font-semibold cursor-pointer text-red-600">Sign out</button>
