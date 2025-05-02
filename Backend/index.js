@@ -5,6 +5,7 @@ const router = require("./routes/authRoute");
 const errorMiddleware = require("./middlewares/error");
 const userRouter = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
+const listingRouter = require("./routes/listingRoute");
 
 
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use(cookieParser());
 app.use("/api/auth",router);
 app.use("/api/user",userRouter);
+app.use("/api/listing", listingRouter);
 app.use(errorMiddleware);
 
 
