@@ -1,5 +1,8 @@
-const ListingModel = require("../models/listingModel");
-const errorUtils = require("../utlis/errorUtils");
+// const ListingModel = require("../models/listingModel");
+// const errorUtils = require("../utlis/errorUtils");
+
+import ListingModel from "../models/listingModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const DeleteListingController = async(req , res , next) =>{
     const listingId = req.params.id;
@@ -29,4 +32,4 @@ const DeleteListingController = async(req , res , next) =>{
    }
 }
 
-module.exports = DeleteListingController;
+export default DeleteListingController;

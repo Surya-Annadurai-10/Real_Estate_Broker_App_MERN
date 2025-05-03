@@ -1,6 +1,10 @@
-const UserModel = require("../models/userModel");
-const errorUtils = require("../utlis/errorUtils");
-const jwt = require("jsonwebtoken");
+// const UserModel = require("../models/userModel");
+// const errorUtils = require("../utlis/errorUtils");
+// const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken"
+import errorUtils from "../utlis/errorUtils.js";
+import UserModel from "../models/userModel.js";
+
 const verifyMiddleware = async(req , res , next) =>{
     const token = req.cookies.access_token
     console.log(req.cookies, "token===========");
@@ -18,4 +22,4 @@ const verifyMiddleware = async(req , res , next) =>{
     
 }
 
-module.exports = verifyMiddleware;
+export default verifyMiddleware;

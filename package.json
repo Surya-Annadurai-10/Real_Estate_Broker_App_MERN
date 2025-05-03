@@ -2,10 +2,11 @@
   "name": "node_mct6_real_estate_broker_app",
   "version": "1.0.0",
   "main": "index.js",
+  "type" :"module",
   "scripts": {
     "dev": "nodemon Backend/index.js",
     "start": "node Backend/index.js",
-    "build" : "npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
+    "build": "npm install && npm install --prefix Frontend/react_vite && npm run build --prefix Frontend/react_vite"
   },
   "keywords": [],
   "author": "",

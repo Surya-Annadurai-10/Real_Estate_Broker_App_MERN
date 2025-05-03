@@ -1,5 +1,8 @@
-const ListingModel = require("../models/listingModel");
-const errorUtils = require("../utlis/errorUtils");
+// const ListingModel = require("../models/listingModel");
+// const errorUtils = require("../utlis/errorUtils");
+
+import ListingModel from "../models/listingModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const EditListingController = async(req , res , next) =>{
 
@@ -19,4 +22,4 @@ try {
     next(error);
 } 
 }
-module.exports = EditListingController;
+export default EditListingController;

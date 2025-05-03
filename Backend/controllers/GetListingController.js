@@ -1,5 +1,8 @@
-const ListingModel = require("../models/listingModel");
-const errorUtils = require("../utlis/errorUtils");
+// const ListingModel = require("../models/listingModel");
+// const errorUtils = require("../utlis/errorUtils");
+
+import ListingModel from "../models/listingModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const GetListingController = async (req , res , next) =>{
     console.log(req.user.id , req.params.id);
@@ -21,4 +24,4 @@ const GetListingController = async (req , res , next) =>{
      }
 }
 
-module.exports = GetListingController
+export default GetListingController

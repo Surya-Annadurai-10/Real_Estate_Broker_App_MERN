@@ -1,4 +1,6 @@
-const ListingModel = require("../models/listingModel");
+// const ListingModel = require("../models/listingModel");
+
+import ListingModel from "../models/listingModel.js";
 
 const ListingController = async (req , res , next) =>{
        try {
@@ -17,4 +19,4 @@ const ListingController = async (req , res , next) =>{
        
 }
 
-module.exports = ListingController;
+export default ListingController;

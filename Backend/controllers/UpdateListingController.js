@@ -1,5 +1,6 @@
-const ListingModel = require("../models/listingModel");
-const errorUtils = require("../utlis/errorUtils");
+import ListingModel from "../models/listingModel.js";
+import errorUtils from "../utlis/errorUtils.js";
+
 
 const UpdateListingController = async(req , res , next) =>{
     
@@ -19,4 +20,4 @@ try {
 }    
 }
 
-module.exports = UpdateListingController;
+export default UpdateListingController;

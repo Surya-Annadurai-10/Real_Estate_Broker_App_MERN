@@ -5,5 +5,4 @@ const errorUtils = (statusCode , errorMessage) =>{
     error.message = errorMessage || "Internal server error";
     return error;
 }
-
-module.exports = errorUtils;
+export default  errorUtils;

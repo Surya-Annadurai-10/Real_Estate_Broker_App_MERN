@@ -1,6 +1,9 @@
-const bcrypt= require("bcrypt");
-const UserModel = require("../models/userModel");
-const errorUtils = require("../utlis/errorUtils");
+// const bcrypt= require("bcrypt");
+// const UserModel = require("../models/userModel");
+// const errorUtils = require("../utlis/errorUtils");
+import bcrypt from "bcrypt"
+import UserModel from "../models/userModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const userRouterController = async(req , res , next) =>{
     try {
@@ -32,4 +35,4 @@ const userRouterController = async(req , res , next) =>{
 
 
 
-module.exports = userRouterController;
+export default userRouterController;

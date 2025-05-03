@@ -10,4 +10,4 @@ const SignOutController = (req , res , next) =>{
       }
 } 
 
-module.exports = SignOutController;
+export default SignOutController;

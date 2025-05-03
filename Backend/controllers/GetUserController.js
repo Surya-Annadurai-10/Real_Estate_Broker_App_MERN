@@ -1,5 +1,8 @@
-const UserModel = require("../models/userModel");
-const errorUtils = require("../utlis/errorUtils");
+// const UserModel = require("../models/userModel");
+// const errorUtils = require("../utlis/errorUtils");
+
+import UserModel from "../models/userModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const GetUserController = async(req , res , next) =>{
     try {
@@ -16,4 +19,4 @@ const GetUserController = async(req , res , next) =>{
         next(error);
     }
 }
-module.exports = GetUserController;
+export default GetUserController;

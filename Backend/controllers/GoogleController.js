@@ -1,6 +1,9 @@
-const UserModel = require("../models/userModel");
-const jwt = require("jsonwebtoken");
-const bcrypt = require ("bcrypt");
+// const UserModel = require("../models/userModel");
+// const jwt = require("jsonwebtoken");
+// const bcrypt = require ("bcrypt");
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import UserModel from "../models/userModel.js";
 
 const GoogleController =async (req , res , next) =>{
    try {
@@ -74,4 +77,5 @@ const GoogleController =async (req , res , next) =>{
    }
 }
 
-module.exports = GoogleController;
+
+export default GoogleController;

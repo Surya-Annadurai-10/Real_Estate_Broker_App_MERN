@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const listingSchema = new mongoose.Schema({
   name: {
@@ -76,4 +77,4 @@ function arrayLimit(val) {
 }
 
 const ListingModel = mongoose.model('Listing', listingSchema);
-module.exports = ListingModel;
+export default ListingModel;

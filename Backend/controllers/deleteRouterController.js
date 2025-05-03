@@ -1,5 +1,8 @@
-const UserModel = require("../models/userModel");
-const errorUtils = require("../utlis/errorUtils");
+// const UserModel = require("../models/userModel");
+// const errorUtils = require("../utlis/errorUtils");
+
+import UserModel from "../models/userModel.js";
+import errorUtils from "../utlis/errorUtils.js";
 
 const deleteRouterController = async (req, res, next) => {
   const id = req.params.id;
@@ -20,4 +23,4 @@ const deleteRouterController = async (req, res, next) => {
   }
 };
 
-module.exports = deleteRouterController;
+export default deleteRouterController;

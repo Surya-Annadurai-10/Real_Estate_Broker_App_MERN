@@ -1,8 +1,16 @@
-const UserModel = require("../models/userModel");
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken");
-const errorUtils = require("../utlis/errorUtils");
-const dotenv = require("dotenv");
+// const UserModel = require("../models/userModel");
+// const bcrypt = require("bcrypt")
+// const jwt = require("jsonwebtoken");
+// const errorUtils = require("../utlis/errorUtils");
+// const dotenv = require("dotenv");
+
+import UserModel from "../models/userModel.js";
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import errorUtils from "../utlis/errorUtils.js";
+import dotenv from "dotenv"
+
+
 dotenv.config();
 
 const LoginController = async (req , res , next) =>{
@@ -48,5 +56,4 @@ const LoginController = async (req , res , next) =>{
 
        
 }
-
-module.exports = LoginController;
+export default LoginController;
