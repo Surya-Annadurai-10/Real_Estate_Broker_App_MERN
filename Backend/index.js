@@ -6,7 +6,8 @@ const errorMiddleware = require("./middlewares/error");
 const userRouter = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
 const listingRouter = require("./routes/listingRoute");
-
+const path = require("node:path")
+const __dirname = path.resolve();
 
 dotenv.config();
 const app = express();
@@ -15,13 +16,23 @@ app.use(cookieParser());
 app.use("/api/auth",router);
 app.use("/api/user",userRouter);
 app.use("/api/listing", listingRouter);
+
+app.use(express.static(path.join(__dirname , '/client/dist')));
+
+app.get("*" , (req , res) =>{
+  res.sendFile(path.join(__dirname , 'dist' , 'index.html'))
+})
+
 app.use(errorMiddleware);
+
 
 
 mongoose
   .connect(process.env.MONGODB)
   .then(() => console.log("db connected successfully"))
   .catch((err) => console.log("Error while connecting to db" , err));
+
+
 
 app.listen(process.env.PORT, (err) => {
   if (err) {
