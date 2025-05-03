@@ -63,7 +63,14 @@ const CreateListing = () => {
         imageURLs: [...imageURLs],
         [e.target.name]: parseInt(e.target.value),
       });
-    } else if (
+    } else if (e.target.name == "latitude" || e.target.name == "longitude") {
+      setFormData({
+        ...formData,
+        imageURLs: [...imageURLs],
+        [e.target.name]: parseFloat(e.target.value),
+      });
+    }
+     else if (
       e.target.name == "regularPrice" ||
       e.target.name == "discountPrice"
     ) {
@@ -182,7 +189,7 @@ const CreateListing = () => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setUploadingStatus(
-            `image : ${i + 1} - uploading ${Math.round(progress)}% completed`
+            `image : ${i + 1} - upload ${Math.round(progress)}% completed`
           );
         },
         (err) => {
@@ -368,7 +375,7 @@ const CreateListing = () => {
                   placeholder="0"
                   type="number"
                   name="bathrooms"
-                  min={1}
+                   min={1}
                   max={10}
                   value={formData.bathrooms}
                   onChange={(e) => handleChange(e)}
