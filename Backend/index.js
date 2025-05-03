@@ -1,4 +1,4 @@
-const express = require("express");
+const express =  require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const router = require("./routes/authRoute");
@@ -6,7 +6,7 @@ const errorMiddleware = require("./middlewares/error");
 const userRouter = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
 const listingRouter = require("./routes/listingRoute");
-const path = require("node:path")
+const path = require("path")
 const __dirname = path.resolve();
 
 dotenv.config();
@@ -17,7 +17,7 @@ app.use("/api/auth",router);
 app.use("/api/user",userRouter);
 app.use("/api/listing", listingRouter);
 
-app.use(express.static(path.join(__dirname , '/client/dist')));
+app.use(express.static(path.join(__dirname , '/Frontend/dist')));
 
 app.get("*" , (req , res) =>{
   res.sendFile(path.join(__dirname , 'dist' , 'index.html'))
