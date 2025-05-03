@@ -27,7 +27,7 @@ const CreateListing = () => {
     name: "",
     description: "",
     address: "",
-    type: "",
+    type: "rent",
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 0,
@@ -255,6 +255,7 @@ const CreateListing = () => {
               <input
                 className="w-full outline-none h-full px-2"
                 type="text"
+                required
                 placeholder="Name"
                 name="name"
                 value={formData.name}
@@ -266,6 +267,7 @@ const CreateListing = () => {
                 className="w-full outline-none min-h-[70px] p-2"
                 placeholder="Description"
                 name="description"
+                required
                 value={formData.description}
                 onChange={(e) => handleChange(e)}
               ></textarea>
@@ -275,6 +277,7 @@ const CreateListing = () => {
                 className="w-full outline-none h-full px-2"
                 type="text"
                 placeholder="Address"
+                required
                 id="address"
                 name="address"
                 value={formData.address}
@@ -350,6 +353,8 @@ const CreateListing = () => {
                   placeholder="0"
                   type="number"
                   name="bedrooms"
+                  min={1}
+                  max={10}
                   value={formData.bedrooms}
                   onChange={(e) => handleChange(e)}
                   id="bedrooms"
@@ -363,6 +368,8 @@ const CreateListing = () => {
                   placeholder="0"
                   type="number"
                   name="bathrooms"
+                  min={1}
+                  max={10}
                   value={formData.bathrooms}
                   onChange={(e) => handleChange(e)}
                   id="bathrooms"

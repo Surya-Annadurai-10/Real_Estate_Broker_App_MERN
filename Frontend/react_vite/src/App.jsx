@@ -13,6 +13,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store'
 import CreateListing from './Containers/CreateListing'
 import Listing from './Containers/Listing'
+import UpdateListing from './Containers/UpdateListing'
 
 
 const router = createBrowserRouter([
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path : "/listing/:id",
         element : <Listing />
+      },
+      {
+        path : "/listing/update-listing/:id",
+        element : <UpdateListing />
       }
     ]
   }

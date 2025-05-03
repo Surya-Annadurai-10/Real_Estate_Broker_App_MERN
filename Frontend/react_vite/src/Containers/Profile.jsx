@@ -337,12 +337,16 @@ const Profile = () => {
                 listings.map((ele , i) =>{
                   return <div  key={ele._id} className="flex border border-gray-200 hover:bg-[white] hover:shadow-[1px_1px_5px_#d4d4d4] hover:scale-[1.05] transition-all p-3 rounded-md  items-center justify-between w-full ">
                    <div className="flex items-center justify-center gap-4">
-                   <img className="w-[70px]" src={ele.imageURLs[0].url} alt={ele.name} />
+                  {
+                    ele.imageURLs[0]?.url ?  <img className="w-[70px]" src={ele.imageURLs[0]?.url} alt={ele.name} /> : <p className="">No Images</p>
+                  }
                    <Link to={`/listing/${ele._id}`}>{ele.name}</Link>
                    </div>
                     <div className="flex items-center justify-center gap-5">
                     <RiDeleteBin6Fill onClick={() => handleDeleteListing(ele._id , i)} className="text-red-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
-                    <MdModeEditOutline className="text-slate-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
+                   <Link to={`/listing/update-listing/${ele._id}`}>
+                   <MdModeEditOutline  className="text-slate-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
+                   </Link>
                     </div>
                   </div>
                 })
