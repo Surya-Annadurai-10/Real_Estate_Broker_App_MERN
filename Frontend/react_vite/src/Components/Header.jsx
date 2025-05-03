@@ -34,7 +34,7 @@ const Header = () => {
 
        {  
         stateUser.userData ? 
-       <Link to={"/profile"}> <img className="w-[40px] h-[40px] rounded-full" src={stateUser.userData.avatar} alt="" /> </Link>
+       <Link to={`/profile/${stateUser.userData._id}`}> <img className="w-[40px] h-[40px] rounded-full" src={stateUser.userData.avatar} alt="" /> </Link>
         :
         <>
          <Link to={"/login"} className="w-[100px] h-[40px] grid place-items-center rounded-md bg-slate-700 text-white">

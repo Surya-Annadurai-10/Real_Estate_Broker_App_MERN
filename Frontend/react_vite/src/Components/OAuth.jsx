@@ -18,6 +18,7 @@ const OAuth = () => {
         //   console.log(res.user.providerData, "res");
     
           const userData = {
+            
             username: res.user.providerData[0].displayName,
             email: res.user.providerData[0].email,
             password: res.user.providerData[0].uid,

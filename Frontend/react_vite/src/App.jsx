@@ -12,6 +12,8 @@ import SignUp from './Containers/SignUp'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
 import CreateListing from './Containers/CreateListing'
+import Listing from './Containers/Listing'
+
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,7 @@ const router = createBrowserRouter([
         element : <Login />
       },
       {
-        path : "/profile",
+        path : "/profile/:id",
         element : <Profile />
       },
 
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
       {
         path :"/createlisting",
         element : <CreateListing />
+      },
+      {
+        path : "/listing/:id",
+        element : <Listing />
       }
     ]
   }

@@ -39,7 +39,7 @@ const GoogleController =async (req , res , next) =>{
         console.log(googleUserData , "googleUserdata");
         
 
-        await UserModel.create(googleUserData);
+       const googleUser= await UserModel.create(googleUserData);
         const payload = {
             username :username,
             email : email
@@ -49,13 +49,24 @@ const GoogleController =async (req , res , next) =>{
         }
         const token = jwt.sign(payload , process.env.JWT_SECRET_KEY, options);
         res.cookie('access_token',token,{httpOnly : true});
-        const {password : pass , ...rest} = googleUserData
-
-        res.status(200).json({
-            success : true,
-            message : "Authenticated successfully",
-            data : rest
-        })
+        // const user = await UserModel.findOne({email : email});
+        // const send = {...googleUserData, id : user._id}
+        const {password : pass , ...rest} = googleUser
+        if (user){
+            console.log({
+                success : true,
+                message : "Authenticated successfully",
+                data : rest,
+               
+            });
+            
+            res.status(200).json({
+                success : true,
+                message : "Authenticated successfully",
+                data : rest,
+                id : user._id
+            })
+        }
         
     }
    } catch (error) {

@@ -6,8 +6,8 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../fireBase";
 import axios from "axios";
 import { cleaupError, deleteInFailure, deleteInStart, deleteInSuccess, updateInFailure, updateInStart, updateInSuccess } from "../slices/slice";
-
-
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { MdModeEditOutline } from "react-icons/md";
 
 const Profile = () => {
   const  stateUser = useSelector(
@@ -22,10 +22,35 @@ const Profile = () => {
   const [progress, setProgress] = useState(0);
   const [errMessage, setErrMessage] = useState("");
  const [formData , setFormData] = useState({});
+ const [listings , setListings] = useState([]);
+  console.log(listings , "listings");
   
   const dispatch = useDispatch();
 
   console.log(stateUser.userData , "stateUser.userData");
+
+  const handleShowListing =async() =>{
+    try {
+      const res  = await fetch (`/api/user/userlisting/${stateUser.userData._id}`,{
+        method : "GET",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+      })
+
+      const resData = await res.json();
+      console.log(resData , "ResData");
+      
+      if(resData.success == false) return setError(resData.message)
+        setListings([
+      ...listings,
+      ...resData.data
+    ])
+    } catch (error) {
+      console.log(error , "error");
+      
+    }
+  }
 
   useEffect(() => {
     if (!stateUser.userData) {
@@ -185,7 +210,7 @@ const Profile = () => {
   }
 
   return (
-    <section className="w-full h-[90vh] bg-[#F1F5F1]">
+    <section className="w-full min-h-[100vh] bg-[#F1F5F1]">
       <div className="flex py-10 m-auto  items-center justify-center max-w-[380px] flex-col gap-4">
         <h1 className="text-3xl pb-4">Profile</h1>
         <input
@@ -262,7 +287,32 @@ const Profile = () => {
           <button onClick={handleDeleteUser} className="border-none hover:font-semibold  cursor-pointer text-red-600">Delete account</button>
           <button onClick={handleSignOut} className="border-none hover:font-semibold cursor-pointer text-red-600">Sign out</button>
         </div>
+        <div>
+          <p onClick={handleShowListing} className="py-2 px-3 rounded-md cursor-pointer hover:bg-green-800 active:scale-[0.95] text-center bg-green-600 text-white">Show listings</p>
+        </div>
+       
+         
       </div>
+      
+      {
+            listings.length > 0 && <div className=" max-w-[380px] py-5 flex items-center justify-center flex-col gap-4 m-auto">
+              <h1 className="font-semibold text-2xl">Your listings</h1>
+              {
+                listings.map((ele , i) =>{
+                  return <Link to={`/listing/${ele._id}`} key={ele._id} className="flex border border-gray-200 hover:bg-[white] hover:shadow-[1px_1px_5px_#d4d4d4] hover:scale-[1.05] transition-all p-3 rounded-md  items-center justify-between w-full ">
+                   <div className="flex items-center justify-center gap-4">
+                   <img className="w-[70px]" src={ele.imageURLs[0].url} alt={ele.name} />
+                   <p>{ele.name}</p>
+                   </div>
+                    <div className="flex items-center justify-center gap-5">
+                    <RiDeleteBin6Fill  className="text-red-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
+                    <MdModeEditOutline className="text-slate-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
+                    </div>
+                  </Link>
+                })
+              }
+            </div>
+          }
     </section>
   );
 };

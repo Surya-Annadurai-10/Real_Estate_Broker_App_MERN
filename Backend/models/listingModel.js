@@ -52,7 +52,7 @@ const listingSchema = new mongoose.Schema({
     default: false,
   },
   imageURLs: {
-    type: [String],
+    type: [Object],
     validate: [arrayLimit, 'Maximum 6 images allowed'],
   },
   userRef: {
