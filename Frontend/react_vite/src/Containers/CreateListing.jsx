@@ -7,7 +7,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { storage } from "../fireBase";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
   const [fileCount, setFileCount] = useState(0);
@@ -22,6 +22,7 @@ const CreateListing = () => {
   const fileRef = useRef(null);
   const stateUser = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const [visit , setVisit] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -42,7 +43,9 @@ const CreateListing = () => {
   console.log(formData, "formData");
   console.log(imageURLs, "imageURLs");
   console.log(stateUser, "stateUser");
-
+  console.log(visit , "visit");
+  
+  
   const handleChange = (e) => {
     if (
       e.target.name == "parking" ||
@@ -107,7 +110,10 @@ const CreateListing = () => {
       }
       console.log(resData, "resData");
       setCreating(false);
-      navigate(`/listing/${resData.data.userRef}`)
+     if(resData.success == true){
+       setVisit(resData.data.userRef);
+      // navigate(`/listing/${resData.data.userRef}`)
+     }
     } catch (error) {
       setUploadingError("Error while uploading in db", error);
     }
@@ -494,6 +500,9 @@ const CreateListing = () => {
             >
               {creating ? "Creating..." : "Create Listing"}
             </button>
+            {
+              visit ? <div className="w-full flex items-center justify-center"><Link className="text-green-700 w-full hover:scale-[1.05] transition-all active:scale-[0.95] cursor-pointer text-center underline hover:underline-offset-2" to={`/listing/${visit}`} >Visit Listing</Link></div> : null
+            }
             {deleteStatus ? (
               <p className={`text-green-700 text-sm`}>{deleteStatus}</p>
             ) : null}

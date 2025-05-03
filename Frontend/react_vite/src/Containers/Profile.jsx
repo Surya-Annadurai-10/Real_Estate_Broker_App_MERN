@@ -52,6 +52,42 @@ const Profile = () => {
     }
   }
 
+
+  const handleDeleteListing = async(id , i) =>{
+     console.log(id, "Id of the lisiting");
+
+     try {
+        const res = await fetch(`/api/listing/delete/${id}`, {
+          method :"DELETE",
+          headers : {
+            "Content-Type" : "application/json",
+          },
+        })
+
+        const resData = await res.json();
+        console.log(resData);
+        
+
+        if(resData.success == false) return console.log("Error while deleting the listing data");
+         let copy = [
+          ...listings
+         ]
+
+
+        copy.splice(i , 1);
+
+        setListings(copy);
+        console.log("Deleted successfully!");
+        
+        
+     } catch (error) {
+      console.log(error , "Error while deleting the Listing");
+      
+     }
+     
+     
+  }
+
   useEffect(() => {
     if (!stateUser.userData) {
       navigate("/login");
@@ -299,16 +335,16 @@ const Profile = () => {
               <h1 className="font-semibold text-2xl">Your listings</h1>
               {
                 listings.map((ele , i) =>{
-                  return <Link to={`/listing/${ele._id}`} key={ele._id} className="flex border border-gray-200 hover:bg-[white] hover:shadow-[1px_1px_5px_#d4d4d4] hover:scale-[1.05] transition-all p-3 rounded-md  items-center justify-between w-full ">
+                  return <div  key={ele._id} className="flex border border-gray-200 hover:bg-[white] hover:shadow-[1px_1px_5px_#d4d4d4] hover:scale-[1.05] transition-all p-3 rounded-md  items-center justify-between w-full ">
                    <div className="flex items-center justify-center gap-4">
                    <img className="w-[70px]" src={ele.imageURLs[0].url} alt={ele.name} />
-                   <p>{ele.name}</p>
+                   <Link to={`/listing/${ele._id}`}>{ele.name}</Link>
                    </div>
                     <div className="flex items-center justify-center gap-5">
-                    <RiDeleteBin6Fill  className="text-red-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
+                    <RiDeleteBin6Fill onClick={() => handleDeleteListing(ele._id , i)} className="text-red-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
                     <MdModeEditOutline className="text-slate-700 p-2 hover:bg-gray-200 cursor-pointer rounded-full"  fontSize={"2.5rem"}/>
                     </div>
-                  </Link>
+                  </div>
                 })
               }
             </div>
