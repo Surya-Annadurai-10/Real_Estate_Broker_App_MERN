@@ -22,14 +22,17 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve()
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 app.listen(process.env.PORT, (err) => {
   if (err) {
     console.log("Error while Listening to the Port: ", process.env.PORT);
   } else {
     console.log("Started listening to the Port:", process.env.PORT);
+    console.log(__dirname );
+    
   }
 });
 
@@ -43,10 +46,10 @@ console.log(__dirname , "dirname");
 
 
 // Static Frontend
-app.use(express.static(path.join(__dirname, './Frontend/react_vite/dist')));
+app.use(express.static(path.join(__dirname, '/Frontend/react_vite/dist')));
 
 app.get("{0,}", (req, res) => {
-  res.sendFile(path.join(__dirname, './Frontend/react_vite/dist/index.html'));
+  res.sendFile(path.join(__dirname, '/Frontend/react_vite/dist/index.html'));
 });
 
 // Error Handler must come LAST
