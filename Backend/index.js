@@ -43,10 +43,10 @@ console.log(__dirname , "dirname");
 
 
 // Static Frontend
-app.use(express.static(path.join(__dirname, 'Frontend/react_vite/dist')));
+app.use(express.static(path.join(__dirname, './Frontend/react_vite/dist')));
 
 app.get("{0,}", (req, res) => {
-  res.sendFile(path.join(__dirname, 'Frontend/react_vite/dist/index.html'));
+  res.sendFile(path.join(__dirname, './Frontend/react_vite/dist/index.html'));
 });
 
 // Error Handler must come LAST
