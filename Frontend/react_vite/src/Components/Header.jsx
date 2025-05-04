@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/royal.png";
 import { GoSearch } from "react-icons/go";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const stateUser  = useSelector(state => state.user);
+  const [searchTerm , setSearchTerm] = useState("");
+  const navigate = useNavigate();
   console.log(stateUser , "Stateuser");
+
+  const handleSubmit = (e) => {
+   e.preventDefault();
+
+   const urlParams = new URLSearchParams(window.location.search);
+   urlParams.set("searchTerm" , searchTerm);
+   const searchQuery = urlParams.toString();
+   navigate(`/search?${searchQuery}`)
+   }
+
+   useEffect(() =>{
+      const urlParams = new URLSearchParams(location.search);
+      const searchParams = urlParams.get("searchTerm");
+      if(searchParams){
+        setSearchTerm(searchParams)
+      }
+   },[location.search])
+  
   
   return (
     <header className="w-full h-[10vh] bg-[#E2E8F0] px-10 flex items-center justify-between">
@@ -17,10 +37,10 @@ const Header = () => {
         </div>
       </div>
       <div className="w-[33%]">
-        <div className="flex items-center w-[100%] bg-[#F1F5F9] h-[45px] justify-center rounded-md">
-            <input placeholder="Search" className="w-[90%] p-2 h-[100%] outline-none border-none" type="text" />
-            <GoSearch className="p-1.5 hover:bg-[#E2E8F0] hover:cursor-pointer hover:scale-[1.2] transition-all active:scale-[0.9]  rounded-full" style={{fontSize:"2.3rem" }} />
-        </div>
+        <form className="flex items-center w-[100%] bg-[#F1F5F9] h-[45px] justify-center rounded-md">
+            <input onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" className="w-[90%] p-2 h-[100%] outline-none border-none" type="text" />
+            <GoSearch onClick={(e) => handleSubmit(e)} className="p-1.5 hover:bg-[#E2E8F0] hover:cursor-pointer hover:scale-[1.2] transition-all active:scale-[0.9]  rounded-full" style={{fontSize:"2.3rem" }} />
+        </form>
        
       </div>
       <div className="flex items-center justify-center gap-10">
