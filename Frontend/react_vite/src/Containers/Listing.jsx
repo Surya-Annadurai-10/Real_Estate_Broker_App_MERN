@@ -72,7 +72,9 @@ if(listinData){
         {loading && <p>Loading...</p>}
         {error && <p>Something went Wrong...</p>}
         {
-            listinData && !loading && !error ? <div>
+            listinData && !loading && !error ? <>
+            
+            <div>
                 <Swiper navigation>
              {
                 listinData?.imageURLs.map((ele , i) =>{
@@ -84,43 +86,47 @@ if(listinData){
                 })
              }
               </Swiper>
-            </div> : null
+
+            </div>
+             <div className='max-w-[52%]   mx-auto'>
+             <h1 className='font-semibold text-2xl my-8'>{listinData.name} - $ {listinData.regularPrice.toLocaleString("en-US")} {listinData.type == "rent" ? "/ month" : null}</h1>
+             <div className='flex items-center justify-start'>
+                 <MdLocationPin className= 'text-[16px] text-green-700'/>
+                 <p className='text-slate-700 text-sm'>{listinData.address}</p>
+             </div>
+             <div className='flex py-4 items-center justify-start gap-3'>
+                 <p className=' py-1 w-[200px] text-center inline-block rounded-md bg-red-900 text-white capitalize'>for <span className='capitalize'>{listinData.type}</span></p>
+                 {
+                     listinData.discountPrice > 0 ?  <p className=' py-1 w-[200px] text-center inline-block rounded-md bg-green-900 text-white  capitalize'>${listinData.regularPrice - listinData.discountPrice} discount</p> : null
+                 }
+             </div>
+             <p className='text-slate-700 text-sm'><strong className='text-[14px] text-[black]'>Description - </strong>{listinData.description}</p>
+             <ul className='flex py-5 gap-5 text-sm items-center justify-start '>
+                 <li className='flex text-green-900 items-center gap-1'>
+                     <FaBed className='text-[16px]'/>
+                     <p className='text-sm font-semibold'>{listinData.bedrooms < 1 ? "1 Bed" : `${listinData.bedrooms} Beds`}</p>
+                 </li>
+                 <li className='flex text-green-900 items-center gap-1'>
+                     <FaBath className='text-[16px]'/>
+                     <p className='text-sm font-semibold'>{listinData.bathrooms < 1 ? "1 Bath" : `${listinData.bathrooms} Baths`}</p>
+                 </li>
+                 <li className='flex text-green-900 items-center gap-1'>
+                     <FaParking className='text-[16px]'/>
+                     <p className='text-sm font-semibold'>{listinData.parking  ? "Parking Spot" : `No Parking`}</p>
+                 </li>
+                 <li className='flex text-green-900 items-center gap-1'>
+                     <FaChair className='text-[16px]'/>
+                     <p className='text-sm font-semibold'>{listinData.furnished ? "Furnished" : `Unfurnished`}</p>
+                 </li>
+             </ul>
+          
+         </div>
+         <Contact listing ={listinData} />
+            </>
+            : null
         }
 
-        <div className='max-w-[52%]   mx-auto'>
-            <h1 className='font-semibold text-2xl my-8'>{listinData.name} - $ {listinData.regularPrice} {listinData.type == "rent" ? "/ month" : null}</h1>
-            <div className='flex items-center justify-start'>
-                <MdLocationPin className= 'text-[16px] text-green-700'/>
-                <p className='text-slate-700 text-sm'>{listinData.address}</p>
-            </div>
-            <div className='flex py-4 items-center justify-start gap-3'>
-                <p className=' py-1 w-[200px] text-center inline-block rounded-md bg-red-900 text-white capitalize'>for <span className='capitalize'>{listinData.type}</span></p>
-                {
-                    listinData.discountPrice > 0 ?  <p className=' py-1 w-[200px] text-center inline-block rounded-md bg-green-900 text-white  capitalize'>${listinData.regularPrice - listinData.discountPrice} discount</p> : null
-                }
-            </div>
-            <p className='text-slate-700 text-sm'><strong className='text-[14px] text-[black]'>Description - </strong>{listinData.description}</p>
-            <ul className='flex py-5 gap-5 text-sm items-center justify-start '>
-                <li className='flex text-green-900 items-center gap-1'>
-                    <FaBed className='text-[16px]'/>
-                    <p className='text-sm font-semibold'>{listinData.bedrooms < 1 ? "1 Bed" : `${listinData.bedrooms} Beds`}</p>
-                </li>
-                <li className='flex text-green-900 items-center gap-1'>
-                    <FaBath className='text-[16px]'/>
-                    <p className='text-sm font-semibold'>{listinData.bathrooms < 1 ? "1 Bath" : `${listinData.bathrooms} Baths`}</p>
-                </li>
-                <li className='flex text-green-900 items-center gap-1'>
-                    <FaParking className='text-[16px]'/>
-                    <p className='text-sm font-semibold'>{listinData.parking  ? "Parking Spot" : `No Parking`}</p>
-                </li>
-                <li className='flex text-green-900 items-center gap-1'>
-                    <FaChair className='text-[16px]'/>
-                    <p className='text-sm font-semibold'>{listinData.furnished ? "Furnished" : `Unfurnished`}</p>
-                </li>
-            </ul>
-         
-        </div>
-        <Contact listing ={listinData} />
+       
     </div>
   )
 }

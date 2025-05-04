@@ -9,14 +9,15 @@ const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredValue, setFilteredValue] = useState([]);
   const navigate = useNavigate();
+  const [showMore, setShowMore] = useState(true);
   const [searchQuery, setSearchQuery] = useState({
-     searchTerm: "",
-     type: "all",
-     offer: false,
-     parking:false,
-     furnished: false,
-     sort: "createdAt",
-     order: "desc",
+    searchTerm: "",
+    type: "all",
+    offer: false,
+    parking: false,
+    furnished: false,
+    sort: "createdAt",
+    order: "desc",
   });
   console.log(searchQuery, "searchQuery");
   // console.log(filteredValue, "filteredValue");
@@ -127,16 +128,15 @@ const SearchPage = () => {
       //   sortUrl,
       //   orderUrl,
       // } , "fetchedUrl");
-      
 
       // if(
-      //   searchTermUrl || 
-      //   typeUrl || 
-      //   offerUrl || 
-      //   parkingurl || 
-      //   furnishedUrl || 
-      //   sortUrl || 
-      //   orderUrl 
+      //   searchTermUrl ||
+      //   typeUrl ||
+      //   offerUrl ||
+      //   parkingurl ||
+      //   furnishedUrl ||
+      //   sortUrl ||
+      //   orderUrl
       // ){
       //   setSearchQuery({
       //     searchTerm: searchTermUrl || "",
@@ -169,6 +169,37 @@ const SearchPage = () => {
     fetchData();
   }, [searchQuery]);
 
+  const handleShowMore = async () => {
+    const index = filteredValue.length;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", index);
+    const searchQueryParams = urlParams.toString();
+
+    try {
+      const res = await fetch(`/api/listing/search?${searchQueryParams}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const resData = await res.json();
+      console.log(resData, " resData");
+      
+
+      if (resData.success) {
+        if(resData.listings.length == 0){
+          setShowMore(false);
+        }else{
+           setShowMore(true)
+        }
+        setFilteredValue([...filteredValue, ...resData.listings]);
+      } else {
+        console.log(resData.message, "Error while fetching the data");
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
 
@@ -176,42 +207,44 @@ const SearchPage = () => {
 
     const searchTermUrl = urlParams.get("searchTerm");
     const typeUrl = urlParams.get("type");
-    const offerUrl =  urlParams.get("offer");
+    const offerUrl = urlParams.get("offer");
     const parkingurl = urlParams.get("parking");
-    const furnishedUrl =  urlParams.get("furnished");
+    const furnishedUrl = urlParams.get("furnished");
     const sortUrl = urlParams.get("sort");
     const orderUrl = urlParams.get("order");
     // const searchParams = urlParams.toString();
 
-    console.log({
-      searchTermUrl,
-      typeUrl,
-      offerUrl,
-      parkingurl,
-      furnishedUrl,
-      sortUrl,
-      orderUrl,
-    } , "fetchedUrl");
-    
+    console.log(
+      {
+        searchTermUrl,
+        typeUrl,
+        offerUrl,
+        parkingurl,
+        furnishedUrl,
+        sortUrl,
+        orderUrl,
+      },
+      "fetchedUrl"
+    );
 
-    if(
-      searchTermUrl || 
-      typeUrl || 
-      offerUrl || 
-      parkingurl || 
-      furnishedUrl || 
-      sortUrl || 
-      orderUrl 
-    ){
+    if (
+      searchTermUrl ||
+      typeUrl ||
+      offerUrl ||
+      parkingurl ||
+      furnishedUrl ||
+      sortUrl ||
+      orderUrl
+    ) {
       setSearchQuery({
         searchTerm: searchTermUrl || "",
         type: typeUrl || "all",
-        offer: offerUrl == "true"  ? true : false,
-        parking: parkingurl == "true"  ? true : false,
-        furnished: furnishedUrl == "true" ? true : false ,
-        sort: sortUrl || 'createdAt' ,
-        order: orderUrl || 'desc',
-      })
+        offer: offerUrl == "true" ? true : false,
+        parking: parkingurl == "true" ? true : false,
+        furnished: furnishedUrl == "true" ? true : false,
+        sort: sortUrl || "createdAt",
+        order: orderUrl || "desc",
+      });
     }
   }, [location.search]);
 
@@ -329,11 +362,25 @@ const SearchPage = () => {
         <div className="w-[75%] bg-[#F1F5F1] p-4  min-h-[90vh]">
           <h1 className="font-semibold text-2xl py-4">Lisiting Results :</h1>
           <div className=" flex items-center justify-start flex-wrap gap-8 border-t-1 py-5 border-t-[#dcdada]">
-           {
-            filteredValue.map((ele , i) =>{
-              return <Cards key={ele._id} {...ele} /> 
-            })
-           }
+            {filteredValue.length > 0 ? (
+              <>
+                {filteredValue.map((ele, i) => {
+                  return <Cards key={ele._id} {...ele} />;
+                })}
+              </>
+            ) : (
+              <h1>No Listing Found!!</h1>
+            )}
+          </div>
+          <div className="w-full grid place-items-center">
+            {showMore ? (
+              <button
+                onClick={handleShowMore}
+                className="px-4 py-2 active:scale-[0.95] hover:scale-[1.05] hover:bg-green-500 hover:shadow-green-300 transition-all cursor-pointer rounded-md  text-white bg-green-600 mx-auto"
+              >
+                Show More
+              </button>
+            ) : null}
           </div>
         </div>
       </main>

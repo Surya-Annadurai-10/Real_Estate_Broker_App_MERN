@@ -1,6 +1,6 @@
 // const express = require("express");
 import express from "express"
-import GetListingController from "../controllers/GetListingController.js";
+import CreateListingController from "../controllers/CreateListingController.js";
 import DeleteListingController from "../controllers/DeleteLisitingController.js"
 import UpdateListingController from "../controllers/UpdateListingController.js"
 import EditListingController from "../controllers/UpdateListingController.js"
@@ -14,7 +14,7 @@ import SearchController from "../controllers/SearchController.js";
 
 const listingRouter = express.Router();
 
-listingRouter.post("/create",verifyToken,GetListingController);
+listingRouter.post("/create",verifyToken,CreateListingController);
 listingRouter.delete("/delete/:id",verifyToken,DeleteListingController);
 listingRouter.post("/update-listing/:id",verifyToken,UpdateListingController);
 listingRouter.get("/edit-listing/:id",verifyToken,EditListingController);

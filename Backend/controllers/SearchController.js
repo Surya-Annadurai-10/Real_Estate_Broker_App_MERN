@@ -21,7 +21,7 @@ const SearchController = async (req, res, next) => {
     let parking = req.query.parking;
 
     if (parking == undefined || parking == "false") {
-      parking == { $in: [false, true] };
+      parking = { $in: [false, true] };
     }
 
     let type = req.query.type;
@@ -34,6 +34,16 @@ const SearchController = async (req, res, next) => {
     console.log(searchTerm, "searchTerm");
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
+    console.log({
+      offer , 
+      furnished ,
+      parking,
+      type,
+      searchTerm,
+      order,
+      sort
+    });
+    
 
     //  const listings = await ListingModel.find({
     //     name : {$regex : searchTerm, $options : "i"},
@@ -46,11 +56,11 @@ const SearchController = async (req, res, next) => {
     //  }).limit(limit).skip(startIndex)
 
     const listings = await ListingModel.find({
-    //   name : {$regex : searchTerm , $options : "i"},
+      name : {$regex : searchTerm , $options : "i"},
       furnished,
       type,
       parking,
-    //   offer
+      offer
     }).sort({
            [sort] : order
           }).limit(limit).skip(startIndex)

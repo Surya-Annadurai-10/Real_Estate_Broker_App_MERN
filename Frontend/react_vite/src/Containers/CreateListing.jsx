@@ -22,7 +22,7 @@ const CreateListing = () => {
   const fileRef = useRef(null);
   const stateUser = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [visit , setVisit] = useState("");
+  const [visit, setVisit] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -43,9 +43,8 @@ const CreateListing = () => {
   console.log(formData, "formData");
   console.log(imageURLs, "imageURLs");
   console.log(stateUser, "stateUser");
-  console.log(visit , "visit");
-  
-  
+  console.log(visit, "visit");
+
   const handleChange = (e) => {
     if (
       e.target.name == "parking" ||
@@ -69,8 +68,7 @@ const CreateListing = () => {
         imageURLs: [...imageURLs],
         [e.target.name]: parseFloat(e.target.value),
       });
-    }
-     else if (
+    } else if (
       e.target.name == "regularPrice" ||
       e.target.name == "discountPrice"
     ) {
@@ -111,16 +109,16 @@ const CreateListing = () => {
 
       const resData = await res.json();
 
-      if(resData.success == false){
-        setUploadingError(resData.message)
+      if (resData.success == false) {
+        setUploadingError(resData.message);
         return;
       }
       console.log(resData, "resData");
       setCreating(false);
-     if(resData.success == true){
-       setVisit(resData.data.userRef);
-      // navigate(`/listing/${resData.data.userRef}`)
-     }
+      if (resData.success == true) {
+        setVisit(resData.data._id);
+        // navigate(`/userlisting/${resData.data._id}`)
+      }
     } catch (error) {
       setUploadingError("Error while uploading in db", error);
     }
@@ -138,6 +136,7 @@ const CreateListing = () => {
   const handleUpload = async () => {
     setDeleteStatus("");
     setDeleteLoading("");
+    setCreating(false);
     if (files.length > 0 && files.length < 7) {
       setUploading(true);
       setUploadingError("");
@@ -375,7 +374,7 @@ const CreateListing = () => {
                   placeholder="0"
                   type="number"
                   name="bathrooms"
-                   min={1}
+                  min={1}
                   max={10}
                   value={formData.bathrooms}
                   onChange={(e) => handleChange(e)}
@@ -514,9 +513,16 @@ const CreateListing = () => {
             >
               {creating ? "Creating..." : "Create Listing"}
             </button>
-            {
-              visit ? <div className="w-full flex items-center justify-center"><Link className="text-green-700 w-full hover:scale-[1.05] transition-all active:scale-[0.95] cursor-pointer text-center underline hover:underline-offset-2" to={`/listing/${visit}`} >Visit Listing</Link></div> : null
-            }
+            {visit ? (
+              <div className="w-full flex items-center justify-center">
+                <Link
+                  className="text-green-700 w-full hover:scale-[1.05] transition-all active:scale-[0.95] cursor-pointer text-center underline hover:underline-offset-2"
+                  to={`/listing/${visit}`}
+                >
+                  Visit Listing
+                </Link>
+              </div>
+            ) : null}
             {deleteStatus ? (
               <p className={`text-green-700 text-sm`}>{deleteStatus}</p>
             ) : null}
