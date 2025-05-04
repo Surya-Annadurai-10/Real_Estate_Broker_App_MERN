@@ -31,7 +31,7 @@ app.listen(process.env.PORT, (err) => {
     console.log("Error while Listening to the Port: ", process.env.PORT);
   } else {
     console.log("Started listening to the Port:", process.env.PORT);
-    console.log(__dirname );
+    //console.log(__dirname );
     
   }
 });
@@ -42,7 +42,7 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", router);
 app.use("/api/listing", listingRouter);
 
-console.log(__dirname , "dirname");
+// console.log(__dirname , "dirname");
 
 
 // Static Frontend

@@ -10,6 +10,7 @@ import EditListingController from "../controllers/UpdateListingController.js"
 // const UpdateListingController = require("../controllers/UpdateListingController");
 // const EditListingController = require("../controllers/EditListingController");
 import verifyToken from "../middlewares/verifyToken.js"
+import SearchController from "../controllers/SearchController.js";
 
 const listingRouter = express.Router();
 
@@ -17,5 +18,6 @@ listingRouter.post("/create",verifyToken,GetListingController);
 listingRouter.delete("/delete/:id",verifyToken,DeleteListingController);
 listingRouter.post("/update-listing/:id",verifyToken,UpdateListingController);
 listingRouter.get("/edit-listing/:id",verifyToken,EditListingController);
+listingRouter.get("/search" , SearchController )
 
 export default listingRouter;
