@@ -252,11 +252,11 @@ const CreateListing = () => {
   };
 
   return (
-    <main className="bg-[#F1F5F1] h-[90vh] w-full">
+    <main className="bg-[#F1F5F1] min-h-[90vh] w-full">
       <div className="w-[95%] mx-auto  h-full">
         <h1 className="font-bold text-center text-2xl py-5">Create Listing</h1>
-        <div className="flex items-start justify-center gap-2">
-          <div className="w-[34%] h-full ">
+        <div className="flex items-start lg:flex-row flex-col justify-center gap-10 lg:gap-2">
+          <div className="lg:w-[34%] w-full h-full ">
             <div className="w-[100%] border mb-4 border-[#d4d4d4] h-[50px] bg-white rounded-md">
               <input
                 className="w-full outline-none h-full px-2"
@@ -451,7 +451,7 @@ const CreateListing = () => {
               ) : null}
             </div>
           </div>
-          <div className="w-[33%] px-3 h-full ">
+          <div className="lg:w-[33%] w-full lg:px-3 h-full ">
             <p className="pb-4">
               <strong>Images:</strong> The first images will the cover (max 6)
             </p>
@@ -532,7 +532,7 @@ const CreateListing = () => {
             <div>
               {imageURLs.length > 0 ? (
                 <>
-                  <div className=" h-[53vh] imageUrl overflow-hidden  overflow-y-scroll">
+                  <div className=" md:h-[53vh] imageUrl overflow-hidden  overflow-y-scroll">
                     {imageURLs.map((ele, i) => {
                       return (
                         <div
@@ -565,7 +565,7 @@ const CreateListing = () => {
               )}
             </div>
           </div>
-          <div className="w-[33%] h-[80vh] bg-amber-400"></div>
+          <div className="lg:w-[33%] w-full h-[80vh] bg-amber-400"></div>
         </div>
       </div>
     </main>

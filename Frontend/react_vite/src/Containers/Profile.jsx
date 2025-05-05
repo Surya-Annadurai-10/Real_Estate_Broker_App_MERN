@@ -332,7 +332,7 @@ const Profile = () => {
       
       {
             listings.length > 0 && <div className=" max-w-[380px] py-5 flex items-center justify-center flex-col gap-4 m-auto">
-              <h1 className="font-semibold text-2xl">Your listings</h1>
+              <h1 className="font-semibold text-2xl">Your Listings</h1>
               {
                 listings.map((ele , i) =>{
                   return <div  key={ele._id} className="flex border border-gray-200 hover:bg-[white] hover:shadow-[1px_1px_5px_#d4d4d4] hover:scale-[1.05] transition-all p-3 rounded-md  items-center justify-between w-full ">

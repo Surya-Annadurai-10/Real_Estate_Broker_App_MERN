@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Cards from "../Components/Cards";
+import { HiAdjustmentsHorizontal } from "react-icons/hi2";
+
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -9,7 +11,8 @@ const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredValue, setFilteredValue] = useState([]);
   const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(true);
+  const [showMore, setShowMore] = useState(false);
+  const [showSort ,setShowSort] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     searchTerm: "",
     type: "all",
@@ -68,6 +71,7 @@ const SearchPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowSort(false)
     //  searchTerm: "",
     //  type: "all",
     //  offer: "",
@@ -108,48 +112,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const urlParams = new URLSearchParams(window.location.search);
-
-      // const searchTermUrl = urlParams.get("searchTerm");
-      // const typeUrl = urlParams.get("type");
-      // const offerUrl =  urlParams.get("offer");
-      // const parkingurl = urlParams.get("parking");
-      // const furnishedUrl =  urlParams.get("furnished");
-      // const sortUrl = urlParams.get("sort");
-      // const orderUrl = urlParams.get("order");
-      // // const searchParams = urlParams.toString();
-
-      // console.log({
-      //   searchTermUrl,
-      //   typeUrl,
-      //   offerUrl,
-      //   parkingurl,
-      //   furnishedUrl,
-      //   sortUrl,
-      //   orderUrl,
-      // } , "fetchedUrl");
-
-      // if(
-      //   searchTermUrl ||
-      //   typeUrl ||
-      //   offerUrl ||
-      //   parkingurl ||
-      //   furnishedUrl ||
-      //   sortUrl ||
-      //   orderUrl
-      // ){
-      //   setSearchQuery({
-      //     searchTerm: searchTermUrl || "",
-      //     type: typeUrl || "all",
-      //     offer: offerUrl == "true"  ? true : false,
-      //     parking: parkingurl == "true"  ? true : false,
-      //     furnished: furnishedUrl == "true" ? true : false ,
-      //     sort: sortUrl || 'createdAt' ,
-      //     order: orderUrl || 'desc',
-      //   })
-      // }
-
-      // console.log(`/api/listing/search?${searchParams}`, "searchParams");
+      
 
       try {
         const res = await fetch(`/api/listing/search?${searchParams}`);
@@ -159,7 +122,12 @@ const SearchPage = () => {
           console.log(res.message, "error");
         } else {
           setFilteredValue(resData.listings);
-          // console.log(res.message, "success");
+          if(resData.listings.length == 0){
+            setShowMore(false);
+          }else{
+             setShowMore(true)
+          }
+         
         }
       } catch (error) {
         console.log("Error while fetching the data ", error);
@@ -203,7 +171,7 @@ const SearchPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
 
-    // const urlParams = new URLSearchParams(window.location.search);
+   
 
     const searchTermUrl = urlParams.get("searchTerm");
     const typeUrl = urlParams.get("type");
@@ -212,7 +180,7 @@ const SearchPage = () => {
     const furnishedUrl = urlParams.get("furnished");
     const sortUrl = urlParams.get("sort");
     const orderUrl = urlParams.get("order");
-    // const searchParams = urlParams.toString();
+   
 
     console.log(
       {
@@ -248,13 +216,15 @@ const SearchPage = () => {
     }
   }, [location.search]);
 
+  
+
   return (
     <>
-      <main className="flex items-start justify-center">
+      <main className="flex items-start bg-[#F1F5F1] justify-center">
         <form
           onSubmit={handleSubmit}
-          className="w-[25%] bg-[#F1F5F1] flex items-center justify-start flex-col gap-4 py-4 h-[90vh] border-r-1 border-r-[#dcdada]"
-        >
+          className={`w-[400px] ${showSort ? "left-0" : "right-[99%]"} lg:left-0 lg:relative  absolute backdrop-blur-2xl flex items-center justify-start flex-col gap-4 py-4 min-h-[90vh]`}>
+          <HiAdjustmentsHorizontal onClick={() => setShowSort(!showSort)} className="absolute cursor-pointer lg:hidden top-4 left-[100%] bg-slate-700 rounded-full text-white text-[2.5rem] p-2"/>
           <div className="flex  items-center justify-center gap-2">
             <label className="font-semibold" htmlFor="search">
               Search Term :
@@ -359,7 +329,7 @@ const SearchPage = () => {
           </button>
         </form>
 
-        <div className="w-[75%] bg-[#F1F5F1] p-4  min-h-[90vh]">
+        <div className="lg:w-[75%] w-[86%] border-l-1 border-l-[#dcdada] bg-[#F1F5F1] p-4  min-h-[90vh]">
           <h1 className="font-semibold text-2xl py-4">Lisiting Results :</h1>
           <div className=" flex items-center justify-start flex-wrap gap-8 border-t-1 py-5 border-t-[#dcdada]">
             {filteredValue.length > 0 ? (
