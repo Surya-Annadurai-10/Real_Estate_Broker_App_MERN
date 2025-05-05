@@ -15,6 +15,7 @@ import CreateListing from './Containers/CreateListing'
 import Listing from './Containers/Listing'
 import UpdateListing from './Containers/UpdateListing'
 import SearchPage from './Containers/SearchPage'
+import 'leaflet/dist/leaflet.css';
 
 
 const router = createBrowserRouter([

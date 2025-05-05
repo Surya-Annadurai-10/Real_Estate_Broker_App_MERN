@@ -11,6 +11,7 @@ import { FaBath } from "react-icons/fa6";
 import { FaParking } from "react-icons/fa";
 import { FaChair } from "react-icons/fa";
 import Contact from "../Components/Contact";
+import Map from "../Components/Map";
 
 const Listing = () => {
   SwiperCore.use([Navigation]);
@@ -31,8 +32,8 @@ const Listing = () => {
     offer: false,
     parking: false,
     furnished: false,
-    latitude: 1,
-    longitude: 1,
+    latitude:  13.0682,
+    longitude: 77.5967,
     imageURLs: [],
     userRef: stateUser.userData._id,
   });
@@ -83,7 +84,9 @@ const Listing = () => {
               })}
             </Swiper>
           </div>
-          <div className="md:max-w-[52%] w-[93%]   mx-auto">
+          <div className="flex pb-5 items-center lg:flex-row flex-col justify-center">
+          <div className="lg:w-[50%] w-[90%]">
+          <div className="md:max-w-[100%] w-[100%]   mx-auto">
             <h1 className="font-semibold text-2xl my-8">
               {listinData.name} - ${" "}
               {listinData.regularPrice.toLocaleString("en-US")}{" "}
@@ -109,7 +112,7 @@ const Listing = () => {
               </strong>
               {listinData.description}
             </p>
-            <ul className="flex py-5 gap-4 md:gap-5 text-sm items-center justify-start ">
+            <ul className="flex py-5 gap-3 md:gap-5 text-sm items-center justify-start ">
               <li className="flex text-green-900 items-center gap-1">
                 <FaBed className="text-[16px]" />
                 <p className="text-sm font-semibold">
@@ -141,6 +144,11 @@ const Listing = () => {
             </ul>
           </div>
           <Contact listing={listinData} />
+          </div>
+          <div className="lg:w-[50%] w-[90%] h-[45vh]">
+            <Map {...listinData} lat={listinData.latitude} long={listinData.longitude} />
+          </div>
+          </div>
         </>
       ) : null}
     </div>

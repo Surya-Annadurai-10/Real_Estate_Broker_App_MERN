@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { storage } from "../fireBase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import Map from "../Components/Map";
 
 const CreateListing = () => {
   const [fileCount, setFileCount] = useState(0);
@@ -35,8 +36,8 @@ const CreateListing = () => {
     offer: false,
     parking: false,
     furnished: false,
-    latitude: 1,
-    longitude: 1,
+    latitude: 12.9716,
+    longitude:77.5946,
     imageURLs: [...imageURLs],
     userRef: stateUser.userData._id,
   });
@@ -565,7 +566,9 @@ const CreateListing = () => {
               )}
             </div>
           </div>
-          <div className="lg:w-[33%] w-full h-[80vh] bg-amber-400"></div>
+          <div className="lg:w-[33%] w-[100%] h-[80vh] ">
+            <Map lat={formData.latitude} formData={formData}  long={formData.longitude}/>
+          </div>
         </div>
       </div>
     </main>
