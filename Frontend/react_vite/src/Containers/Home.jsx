@@ -6,6 +6,7 @@ import { Navigation , Autoplay } from 'swiper/modules'
 import "swiper/css/bundle"
 import Cards from '../Components/Cards'
 import { FaLongArrowAltRight } from "react-icons/fa";
+import Loading from '../Components/Loading'
 
 
 const Home = () => {
@@ -26,6 +27,7 @@ const Home = () => {
         setSwiperSlides(1);
       }else if(screenWidth < 860){
         setSwiperSlides(2)
+        console.log("2 eventListener---------");
         
       }else{
         console.log("3 event listener-------------");
@@ -119,7 +121,7 @@ const Home = () => {
                 }
                 </>
                 
-                : null
+                : <Loading />
                }
 
         </Swiper>
@@ -157,7 +159,7 @@ const Home = () => {
                 }
                 </>
                 
-                : null
+                : <Loading/>
                }
 
         </Swiper>
@@ -193,7 +195,7 @@ const Home = () => {
                 }
                 </>
                 
-                : null
+                : <Loading />
                }
 
         </Swiper>
@@ -229,7 +231,7 @@ const Home = () => {
                 }
                 </>
                 
-                : null
+                : <Loading />
                }
 
         </Swiper>

@@ -12,6 +12,7 @@ import { FaParking } from "react-icons/fa";
 import { FaChair } from "react-icons/fa";
 import Contact from "../Components/Contact";
 import Map from "../Components/Map";
+import Loading from "../Components/Loading";
 
 const Listing = () => {
   SwiperCore.use([Navigation]);
@@ -164,7 +165,7 @@ const Listing = () => {
           </div>
           </div>
         </>
-      ) : null}
+      ) : <Loading/>}
     </div>
   );
 };
