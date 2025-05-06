@@ -74,6 +74,9 @@ const Listing = () => {
     }
   }, [listinData]);
 
+  console.log(listinData.regularPrice , listinData.discountPrice , "calculations");
+  
+
   return (
     <div className="w-full min-h-[90vh] bg-[#F1F5F1]">
       {loading && <p>Loading...</p>}
@@ -115,7 +118,7 @@ const Listing = () => {
                   </p>
                   {listinData.discountPrice > 0 ? (
                     <p className=" py-1 w-[200px] text-center inline-block rounded-md bg-green-900 text-white  capitalize">
-                      ${listinData.regularPrice - listinData.discountPrice}{" "}
+                      ${listinData.discountPrice}{" "}
                       discount
                     </p>
                   ) : null}
