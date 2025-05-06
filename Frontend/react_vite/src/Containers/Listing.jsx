@@ -34,7 +34,7 @@ const Listing = () => {
     offer: false,
     parking: false,
     furnished: false,
-    latitude:  13.0682,
+    latitude: 13.0682,
     longitude: 77.5967,
     imageURLs: [],
     userRef: stateUser.userData?._id || null,
@@ -42,29 +42,27 @@ const Listing = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-     try {
-      const res = await fetch(`/api/listing/edit-listing/${id}`, {
-        method: "GET",
-        headers: {
-          "Contact-Type": "application/json",
-        },
-      });
+      try {
+        const res = await fetch(`/api/listing/edit-listing/${id}`, {
+          method: "GET",
+          headers: {
+            "Contact-Type": "application/json",
+          },
+        });
 
-      const resData = await res.json();
-      console.log(resData.data, "listing Page Data");
-     if(!resData.success) {
-      if(resData.message.includes("token not present")){
-         navigate("/login");
+        const resData = await res.json();
+        console.log(resData.data, "listing Page Data");
+        if (!resData.success) {
+          if (resData.message.includes("token not present")) {
+            navigate("/login");
+          }
+          return console.log("Error fetcing listing", resData);
+        }
+        setListingData(resData.data);
+        console.log("Listing fetched successfully!", resData);
+      } catch (error) {
+        console.log("Error while fetching the listing", error);
       }
-      return console.log("Error fetcing listing" , resData);
-     }
-     setListingData(resData.data);  
-     console.log("Listing fetched successfully!" , resData);
-     
-     } catch (error) {
-       console.log("Error while fetching the listing" , error);
-       
-     }
     };
 
     fetchData();
@@ -100,72 +98,81 @@ const Listing = () => {
             </Swiper>
           </div>
           <div className="flex pb-5 items-center px-5 lg:flex-row flex-col justify-center">
-          <div className="lg:w-[50%] w-[90%]">
-          <div className="md:max-w-[100%] w-[100%]   mx-auto">
-            <h1 className="font-semibold text-2xl my-8">
-              {listinData.name} - ${" "}
-              {listinData.regularPrice.toLocaleString("en-US")}{" "}
-              {listinData.type == "rent" ? "/ month" : null}
-            </h1>
-            <div className="flex items-center justify-start">
-              <MdLocationPin className="text-[16px] text-green-700" />
-              <p className="text-slate-700 text-sm">{listinData.address}</p>
-            </div>
-            <div className="flex py-4 items-center justify-start gap-3">
-              <p className=" py-1 w-[200px] text-center inline-block rounded-md bg-red-900 text-white capitalize">
-                for <span className="capitalize">{listinData.type}</span>
-              </p>
-              {listinData.discountPrice > 0 ? (
-                <p className=" py-1 w-[200px] text-center inline-block rounded-md bg-green-900 text-white  capitalize">
-                  ${listinData.regularPrice - listinData.discountPrice} discount
+            <div className="lg:w-[50%] w-[90%]">
+              <div className="md:max-w-[100%] w-[100%]   mx-auto">
+                <h1 className="font-semibold text-2xl my-8">
+                  {listinData.name} - ${" "}
+                  {listinData.regularPrice.toLocaleString("en-US")}{" "}
+                  {listinData.type == "rent" ? "/ month" : null}
+                </h1>
+                <div className="flex items-center justify-start">
+                  <MdLocationPin className="text-[16px] text-green-700" />
+                  <p className="text-slate-700 text-sm">{listinData.address}</p>
+                </div>
+                <div className="flex py-4 items-center justify-start gap-3">
+                  <p className=" py-1 w-[200px] text-center inline-block rounded-md bg-red-900 text-white capitalize">
+                    for <span className="capitalize">{listinData.type}</span>
+                  </p>
+                  {listinData.discountPrice > 0 ? (
+                    <p className=" py-1 w-[200px] text-center inline-block rounded-md bg-green-900 text-white  capitalize">
+                      ${listinData.regularPrice - listinData.discountPrice}{" "}
+                      discount
+                    </p>
+                  ) : null}
+                </div>
+                <p className="text-slate-700 text-sm">
+                  <strong className="text-[14px] text-[black]">
+                    Description -{" "}
+                  </strong>
+                  {listinData.description}
                 </p>
+                <ul className="flex py-5 gap-3 md:gap-5 text-sm items-center justify-start ">
+                  <li className="flex text-green-900 items-center gap-1">
+                    <FaBed className="text-[16px]" />
+                    <p className="text-sm font-semibold">
+                      {listinData.bedrooms < 1
+                        ? "1 Bed"
+                        : `${listinData.bedrooms} Beds`}
+                    </p>
+                  </li>
+                  <li className="flex text-green-900 items-center gap-1">
+                    <FaBath className="text-[16px]" />
+                    <p className="text-sm font-semibold">
+                      {listinData.bathrooms < 1
+                        ? "1 Bath"
+                        : `${listinData.bathrooms} Baths`}
+                    </p>
+                  </li>
+                  <li className="flex text-green-900 items-center gap-1">
+                    <FaParking className="text-[16px]" />
+                    <p className="text-sm font-semibold">
+                      {listinData.parking ? "Parking Spot" : `No Parking`}
+                    </p>
+                  </li>
+                  <li className="flex text-green-900 items-center gap-1">
+                    <FaChair className="text-[16px]" />
+                    <p className="text-sm font-semibold">
+                      {listinData.furnished ? "Furnished" : `Unfurnished`}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <Contact listing={listinData} />
+            </div>
+            <div className="lg:w-[50%] w-[90%] p-5 h-[45vh]">
+              {listinData ? (
+                <>
+                  <Map
+                    {...listinData}
+                  />
+                </>
               ) : null}
             </div>
-            <p className="text-slate-700 text-sm">
-              <strong className="text-[14px] text-[black]">
-                Description -{" "}
-              </strong>
-              {listinData.description}
-            </p>
-            <ul className="flex py-5 gap-3 md:gap-5 text-sm items-center justify-start ">
-              <li className="flex text-green-900 items-center gap-1">
-                <FaBed className="text-[16px]" />
-                <p className="text-sm font-semibold">
-                  {listinData.bedrooms < 1
-                    ? "1 Bed"
-                    : `${listinData.bedrooms} Beds`}
-                </p>
-              </li>
-              <li className="flex text-green-900 items-center gap-1">
-                <FaBath className="text-[16px]" />
-                <p className="text-sm font-semibold">
-                  {listinData.bathrooms < 1
-                    ? "1 Bath"
-                    : `${listinData.bathrooms} Baths`}
-                </p>
-              </li>
-              <li className="flex text-green-900 items-center gap-1">
-                <FaParking className="text-[16px]" />
-                <p className="text-sm font-semibold">
-                  {listinData.parking ? "Parking Spot" : `No Parking`}
-                </p>
-              </li>
-              <li className="flex text-green-900 items-center gap-1">
-                <FaChair className="text-[16px]" />
-                <p className="text-sm font-semibold">
-                  {listinData.furnished ? "Furnished" : `Unfurnished`}
-                </p>
-              </li>
-            </ul>
-          </div>
-          <Contact listing={listinData} />
-          </div>
-          <div className="lg:w-[50%] w-[90%] p-5 h-[45vh]">
-            <Map {...listinData} lat={listinData.latitude} long={listinData.longitude} />
-          </div>
           </div>
         </>
-      ) : <Loading/>}
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
