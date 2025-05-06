@@ -7,7 +7,7 @@ const Contact = ({listing}) => {
     const [message , setMessage] = useState("");
     const [contactLandlord , setContactLandlord] = useState(false);
     const navigate = useNavigate();
-console.log(user , "USER FROM CONTAT PAGE");
+// console.log(user , "USER FROM CONTAT PAGE");
 
     useEffect(() =>{
     const fetchData = async() =>{
@@ -21,7 +21,8 @@ console.log(user , "USER FROM CONTAT PAGE");
            return console.log("Error while fetching the data" , resData) ;
             
         }
-        
+        console.log(resData , "User from contact page--------------------------");
+        setUser(resData.data)
        } catch (error) {
           console.log(error, "Error while fethcing the user im contact component");
           
@@ -36,7 +37,7 @@ console.log(user , "USER FROM CONTAT PAGE");
    <div className='w-full grid place-items-center'>
     {
         contactLandlord ? <div className='md:w-[100%] w-[93%] mx-auto '>
-        <h1>Contact <strong>{user?.username} </strong> for <strong>{listing.name}</strong></h1>
+        <h1>Contact <strong className='capitalize'>{user?.username} </strong> for <strong className='capitalize'>{listing.name}</strong></h1>
          <textarea onChange={(e) => setMessage(e.target.value)} placeholder='Enter your message here..' name="" className='w-full rounded-xl border min-h-[100px]  bg- p-2 my-2 border-gray-300' id=""></textarea>
          <Link to={`mailto:${user.email}?subject=Regarding ${listing.name}&body=${message}`} >
          <button className='w-full hover:bg-slate-600 cursor-pointer mb-4 active:scale-[0.95] rounded-md h-[40px] bg-slate-700 text-white'>Send Message</button></Link>
