@@ -23,11 +23,11 @@ const Profile = () => {
   const [errMessage, setErrMessage] = useState("");
  const [formData , setFormData] = useState({});
  const [listings , setListings] = useState([]);
-  console.log(listings , "listings");
+  // console.log(listings , "listings");
   
   const dispatch = useDispatch();
 
-  console.log(stateUser.userData , "stateUser.userData");
+  // console.log(stateUser.userData , "stateUser.userData");
 
   const handleShowListing =async() =>{
     try {
@@ -39,7 +39,7 @@ const Profile = () => {
       })
 
       const resData = await res.json();
-      console.log(resData , "ResData");
+      // console.log(resData , "ResData");
       
       if(resData.success == false) return setError(resData.message)
         setListings([
@@ -54,7 +54,7 @@ const Profile = () => {
 
 
   const handleDeleteListing = async(id , i) =>{
-     console.log(id, "Id of the lisiting");
+    //  console.log(id, "Id of the lisiting");
 
      try {
         const res = await fetch(`/api/listing/delete/${id}`, {
@@ -65,7 +65,7 @@ const Profile = () => {
         })
 
         const resData = await res.json();
-        console.log(resData);
+        // console.log(resData);
         
 
         if(resData.success == false) return console.log("Error while deleting the listing data");
@@ -163,6 +163,9 @@ const Profile = () => {
       
       if(!resData.success){
         dispatch(deleteInFailure(resData))
+        if(resData.message.includes("token not present")){
+          navigate("/login");
+       }
         return
       }
       dispatch(deleteInSuccess(resData));

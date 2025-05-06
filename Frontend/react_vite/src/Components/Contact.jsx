@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Contact = ({listing}) => {
     console.log(listing ,"listing from contact component");
     const [user , setUser] = useState({});
     const [message , setMessage] = useState("");
     const [contactLandlord , setContactLandlord] = useState(false);
+    const navigate = useNavigate();
 console.log(user , "USER FROM CONTAT PAGE");
 
     useEffect(() =>{
@@ -13,8 +14,13 @@ console.log(user , "USER FROM CONTAT PAGE");
        try {
         const res = await fetch(`/api/user/getuser/${listing.userRef}`)
         const resData = await res.json();
-        setUser(resData.data);
-        console.log(resData , "USER FROM CONTAT PAGE");
+        if(!resData.success){
+            if(resData.message.includes("token not present")){
+                navigate("/login")
+            }
+           return console.log("Error while fetching the data" , resData) ;
+            
+        }
         
        } catch (error) {
           console.log(error, "Error while fethcing the user im contact component");

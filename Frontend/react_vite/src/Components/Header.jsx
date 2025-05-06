@@ -7,6 +7,7 @@ import { FaSun } from "react-icons/fa";
 import { motion } from "motion/react";
 import { IoSearch } from "react-icons/io5";
 import { HiMenuAlt2 } from "react-icons/hi";
+
 import { MdClear } from "react-icons/md";
 
 const Header = () => {
@@ -164,9 +165,11 @@ const Header = () => {
           <>
             <Link
               to={"/login"}
-              className="w-[100px] h-[40px] grid place-items-center rounded-md bg-slate-700 text-white"
+             
             >
-              Login
+            <button  className="w-[100px] h-[40px] grid place-items-center cursor-pointer transition-all hover:-translate-y-1 hover:scale-[1.05] hover:shadow-[0px_0px_40px_rgb(0,0,0,0.4)] rounded-md bg-slate-700 text-white">
+            Login
+            </button>
             </Link>
           </>
         )}

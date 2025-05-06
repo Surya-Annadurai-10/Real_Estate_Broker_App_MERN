@@ -13,7 +13,7 @@ const OAuth = () => {
 
     const handleGoogleSignUp = async() =>{
         try {
-            dispatch(loginInStart())
+           
           const res = await signInWithPopup(auth, googleAuthProvider);
         //   console.log(res.user.providerData, "res");
     

@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { lazy, Suspense, useState } from 'react'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './Layout/Layout'
-import Home from './Containers/Home'
-import About from './Containers/About'
-import Login from './Containers/Login'
-import Profile from './Containers/Profile'
-import SignUp from './Containers/SignUp'
+import 'leaflet/dist/leaflet.css';
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
-import CreateListing from './Containers/CreateListing'
-import Listing from './Containers/Listing'
-import UpdateListing from './Containers/UpdateListing'
-import SearchPage from './Containers/SearchPage'
-import 'leaflet/dist/leaflet.css';
+import Loading from './Components/Loading';
+
+const HomeComponent = lazy( () => import('./Containers/Home'))
+const AboutComponent = lazy( () => import('./Containers/About'))
+const LoginComponent = lazy( () => import('./Containers/Login'))
+const ProfileComponent = lazy( () => import('./Containers/Profile'))
+const SignUpComponent = lazy( () => import( './Containers/SignUp'))
+const CreateListingComponent = lazy( () => import('./Containers/CreateListing'))
+const SearchPageComponent = lazy( () => import('./Containers/SearchPage'))
+const UpdateListingComponent = lazy( () => import( './Containers/UpdateListing'))
+const ListingComponent = lazy( () => import('./Containers/Listing'))
 
 
 const router = createBrowserRouter([
@@ -24,40 +24,58 @@ const router = createBrowserRouter([
     children : [
       {
         path : "/",
-        element : <Home />
+        element : <Suspense fallback={<Loading />} > 
+          <HomeComponent />
+        </Suspense>
       },
       {
         path: "/about",
-        element: <About />
+        element: <Suspense fallback={<Loading />} > 
+        <AboutComponent />
+      </Suspense>
       },
       {
         path : "/login",
-        element : <Login />
+        element :<Suspense fallback={<Loading />} > 
+        <LoginComponent />
+      </Suspense>
       },
       {
         path : "/profile/:id",
-        element : <Profile />
+        element : <Suspense fallback={<Loading />} > 
+          <ProfileComponent />
+        </Suspense>
       },
 
       {
         path : "/signup",
-        element : <SignUp />
+        element : <Suspense fallback={<Loading />} > 
+          <SignUpComponent />
+        </Suspense>
       },
       {
         path :"/createlisting",
-        element : <CreateListing />
+        element : <Suspense fallback={<Loading />} > 
+          <CreateListingComponent />
+        </Suspense>
       },
       {
         path : "/listing/:id",
-        element : <Listing />
+        element : <Suspense fallback={<Loading />} > 
+          <ListingComponent />
+        </Suspense>
       },
       {
         path : "/listing/update-listing/:id",
-        element : <UpdateListing />
+        element : <Suspense fallback={<Loading />} > 
+          <UpdateListingComponent />
+        </Suspense>
       },
       {
         path : "/search",
-        element : <SearchPage />
+        element :<Suspense fallback={<Loading />} > 
+          <SearchPageComponent />
+        </Suspense>
       }
     ]
   }

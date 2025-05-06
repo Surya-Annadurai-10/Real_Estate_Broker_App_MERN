@@ -119,6 +119,9 @@ const SearchPage = () => {
         const resData = await res.json();
         // console.log(resData, "resData");
         if (!resData.success) {
+          if(resData.message.includes("token not present")){
+            navigate("/login");
+         }
           console.log(res.message, "error");
         } else {
           setFilteredValue(resData.listings);

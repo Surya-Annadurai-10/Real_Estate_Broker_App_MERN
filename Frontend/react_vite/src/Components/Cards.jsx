@@ -14,9 +14,9 @@ const Cards = (props) => {
         </div>
         <div className='p-3 '>
             <h1 className='py-4 line-clamp-1font-semibold'>{props.name}</h1>
-             <div className='flex gap-1'>
+             <div className='flex gap-1 line-clamp-1'>
                 <IoLocationSharp className=' text-green-600'/>
-                <p className='pb-3 text-[11px] text-gray-700'>{props.address}</p>
+                <p className='pb-3 line-clamp-2 overflow-hidden text-[11px] text-gray-700'>{props.address.substring(0,50)}{props.address.length > 50 ? "..." : null}</p>
              </div>
             <p className='text-[10px] line-clamp-1 pb-3 text-gray-700'>{props.description}</p>
              <h1 className='py-3  font-semibold text-[#646464]'>$ {props.regularPrice.toLocaleString("en-US")} {props.type == "rent" ? "/ month" : null}</h1>

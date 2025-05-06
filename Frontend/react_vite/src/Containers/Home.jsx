@@ -5,6 +5,7 @@ import SwiperCore from "swiper"
 import { Navigation , Autoplay } from 'swiper/modules'
 import "swiper/css/bundle"
 import Cards from '../Components/Cards'
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 
 const Home = () => {
@@ -84,7 +85,10 @@ const Home = () => {
           <h1 className='lg:text-6xl md:text-5xl text-3xl font-bold text-slate-700 md:leading-15 lg:leading-17.5'>Find your next <span className='text-slate-500'>perfect</span> <br /> place with ease</h1>
           <p className='text-slate-400 md:text-sm text-[10px]'>Sun Estates will help you find your home fast, easy and comfortable. <br /> Our expert support are always available.</p>
           <Link to={"/search"} className={"text-slate-700 text-sm font-semibold"} >
-          <button className='px-6 py-4 bg-slate-700 text-[#F1F5F1] cursor-pointer hover:scale-[1.05] hover:bg-slate-600 transition-all active:scale-[0.95] rounded-md '>Let's Start now...</button></Link>
+          <button className='px-6 py-4 rounded-full hover:gap-10 flex items-center justify-center gap-2 bg-slate-700 text-[#F1F5F1] cursor-pointer hover:scale-[1.05] hover:bg-slate-600 transition-all active:scale-[0.95]  '>
+            <h1>Let's Start now</h1>
+            <FaLongArrowAltRight className='text-2xl'/>
+            </button></Link>
       
         </div>
       </div>

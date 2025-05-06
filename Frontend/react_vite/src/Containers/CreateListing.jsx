@@ -41,10 +41,10 @@ const CreateListing = () => {
     imageURLs: [...imageURLs],
     userRef: stateUser.userData._id,
   });
-  console.log(formData, "formData");
-  console.log(imageURLs, "imageURLs");
-  console.log(stateUser, "stateUser");
-  console.log(visit, "visit");
+  // console.log(formData, "formData");
+  // console.log(imageURLs, "imageURLs");
+  // console.log(stateUser, "stateUser");
+  // console.log(visit, "visit");
 
   const handleChange = (e) => {
     if (
@@ -111,6 +111,9 @@ const CreateListing = () => {
       const resData = await res.json();
 
       if (resData.success == false) {
+        if(resData.message.includes("token not present")){
+          navigate("/login");
+       }
         setUploadingError(resData.message);
         return;
       }
@@ -566,8 +569,8 @@ const CreateListing = () => {
               )}
             </div>
           </div>
-          <div className="lg:w-[33%] w-[100%] h-[80vh] ">
-            <Map lat={formData.latitude} formData={formData}  long={formData.longitude}/>
+          <div className="lg:w-[33%] w-[100%] pb-5 h-[80vh] ">
+            <Map lat={formData.latitude} {...formData}  long={formData.longitude}/>
           </div>
         </div>
       </div>

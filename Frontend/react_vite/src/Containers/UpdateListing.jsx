@@ -43,10 +43,10 @@ import {
     });
 
     const [resData , setResData] = useState({});
-    console.log(formData, "formData");
-    console.log(imageURLs, "imageURLs");
-    console.log(stateUser, "stateUser");
-    console.log(visit , "visit");
+    // console.log(formData, "formData");
+    // console.log(imageURLs, "imageURLs");
+    // console.log(stateUser, "stateUser");
+    // console.log(visit , "visit");
 
 
     useEffect(() =>{
@@ -54,7 +54,7 @@ import {
           const res = await fetch(`/api/listing/edit-listing/${id}`)
           const resData = await res.json();
           setFormData(resData.data)
-          await setResData(resData.data);
+          setResData(resData.data);
           console.log(formData, " update resData");
           setImageURLs([
             ...formData.imageURLs

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SwiperCore from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -20,6 +20,7 @@ const Listing = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const stateUser = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [listinData, setListingData] = useState({
     name: "",
     description: "",
@@ -35,11 +36,12 @@ const Listing = () => {
     latitude:  13.0682,
     longitude: 77.5967,
     imageURLs: [],
-    userRef: stateUser.userData._id,
+    userRef: stateUser.userData?._id || null,
   });
 
   useEffect(() => {
     const fetchData = async () => {
+     try {
       const res = await fetch(`/api/listing/edit-listing/${id}`, {
         method: "GET",
         headers: {
@@ -49,7 +51,19 @@ const Listing = () => {
 
       const resData = await res.json();
       console.log(resData.data, "listing Page Data");
-      setListingData(resData.data);
+     if(!resData.success) {
+      if(resData.message.includes("token not present")){
+         navigate("/login");
+      }
+      return console.log("Error fetcing listing" , resData);
+     }
+     setListingData(resData.data);  
+     console.log("Listing fetched successfully!" , resData);
+     
+     } catch (error) {
+       console.log("Error while fetching the listing" , error);
+       
+     }
     };
 
     fetchData();
@@ -84,7 +98,7 @@ const Listing = () => {
               })}
             </Swiper>
           </div>
-          <div className="flex pb-5 items-center lg:flex-row flex-col justify-center">
+          <div className="flex pb-5 items-center px-5 lg:flex-row flex-col justify-center">
           <div className="lg:w-[50%] w-[90%]">
           <div className="md:max-w-[100%] w-[100%]   mx-auto">
             <h1 className="font-semibold text-2xl my-8">
@@ -145,7 +159,7 @@ const Listing = () => {
           </div>
           <Contact listing={listinData} />
           </div>
-          <div className="lg:w-[50%] w-[90%] h-[45vh]">
+          <div className="lg:w-[50%] w-[90%] p-5 h-[45vh]">
             <Map {...listinData} lat={listinData.latitude} long={listinData.longitude} />
           </div>
           </div>
