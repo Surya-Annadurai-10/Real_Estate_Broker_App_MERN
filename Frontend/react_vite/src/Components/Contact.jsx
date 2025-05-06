@@ -31,7 +31,7 @@ const Contact = ({listing}) => {
     }
 
     fetchData()
-},[])
+},[listing])
 
   return (
    <div className='w-full grid place-items-center'>
