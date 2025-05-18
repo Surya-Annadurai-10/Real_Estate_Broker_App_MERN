@@ -45,11 +45,7 @@ Sun Estates is a modern, full-featured real estate platform built using the MERN
 
 - Firebase (for real-time features)
 - Nodemon (for dev reloading)
-
-
-## 🚀 Getting Started
-
-
+- 
 ## ✍️ Author
 
 Built by **Surya Annadurai** — aspiring Full Stack Developer passionate about innovation and creativity.
